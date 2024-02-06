@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "366028868086",
+    "project_id": "logit-42348",
+    "storage_bucket": "logit-42348.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:366028868086:android:92356169f671e6fcd99fd7",
+        "android_client_info": {
+          "package_name": "com.example.logit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBErz3ebj7rIUGNbZg5D9Cign21y-SDALg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
