@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:logit/model/article.dart';
 import 'package:logit/widget/bookmark.dart';
 import 'package:logit/widget/discovery.dart';
@@ -73,11 +74,11 @@ class HealthBlog extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: SizedBox(
-                  height: 200,
+            SizedBox(
+              height: 210,
+              child: Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: bookmarkedArticles.length,
@@ -117,27 +118,16 @@ class HealthBlog extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: Color.fromARGB(255, 70, 168, 73)),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.health_and_safety,
-                color: Color.fromARGB(255, 70, 168, 73)),
-            label: 'Health Diary',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_on,
-                color: Color.fromARGB(255, 70, 168, 73)),
-            label: 'Notification',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.event_note_rounded,
-                color: Color.fromARGB(255, 70, 168, 73)),
-            label: 'Reminder',
-          ),
+      bottomNavigationBar: const GNav(
+        gap: 4,
+        color: Color.fromARGB(255, 75, 153, 78),
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        activeColor: Color.fromARGB(255, 203, 26, 13),
+        tabs: [
+          GButton(icon: Icons.home, text: 'Home'),
+          GButton(icon: Icons.health_and_safety, text: 'Health Diary'),
+          GButton(icon: Icons.notifications_on, text: 'Notifications'),
+          GButton(icon: Icons.event_note_rounded, text: 'Reminders')
         ],
       ),
     );

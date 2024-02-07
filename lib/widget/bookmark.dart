@@ -61,9 +61,9 @@ class BookmarkCard extends StatelessWidget {
                   child: Text(
                     article.title,
                     style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                    ),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 0),
                   ),
                 ),
                 const Spacer(),
