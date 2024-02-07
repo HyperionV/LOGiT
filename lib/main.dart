@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:logit/screen/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:logit/screen/blog.dart';
+import 'package:logit/screen/home.dart';
 import 'miscellaneous/firebase_options.dart';
-import 'package:logit/screen/blog.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +18,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HealthBlog(),
+      home: MainScreen(),
     );
   }
 }
