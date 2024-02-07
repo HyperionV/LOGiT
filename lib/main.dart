@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:logit/screen/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:logit/screen/blog.dart';
 import 'miscellaneous/firebase_options.dart';
+import 'package:logit/screen/blog.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,12 +19,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'FlutterChat',
-      theme: ThemeData().copyWith(
-        colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 18, 173, 109)),
-      ),
-      home: const AuthScreen(),
+      home: HealthBlog(),
     );
   }
 }

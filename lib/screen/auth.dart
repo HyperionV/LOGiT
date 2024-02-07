@@ -105,6 +105,7 @@ class _AuthScreenState extends State<AuthScreen> {
           email: _email,
           password: _pwd,
         );
+        _showPopup();
         print(userCredential);
       } else {
         final userCredential = await firebase.createUserWithEmailAndPassword(
@@ -122,6 +123,26 @@ class _AuthScreenState extends State<AuthScreen> {
         ),
       );
     }
+  }
+
+  void _showPopup() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Popup Title'),
+          content: const Text('Popup Content'),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget _loginForm() {
