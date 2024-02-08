@@ -1,7 +1,6 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, unused_field, unused_element
 
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 final firebase = FirebaseAuth.instance;
@@ -101,19 +100,19 @@ class _AuthScreenState extends State<AuthScreen> {
     _formKey.currentState!.save();
     try {
       if (_isLogin) {
-        final userCredential = await firebase.signInWithEmailAndPassword(
+        await firebase.signInWithEmailAndPassword(
           email: _email,
           password: _pwd,
         );
-        _showPopup();
-        print(userCredential);
+        // _showPopup();
+        // print(userCredential);
       } else {
-        final userCredential = await firebase.createUserWithEmailAndPassword(
+        await firebase.createUserWithEmailAndPassword(
           email: _email,
           password: _pwd,
         );
-        print(userCredential);
-        print(_name);
+        // print(userCredential);
+        // print(_name);
       }
     } on FirebaseAuthException catch (error) {
       ScaffoldMessenger.of(context).clearSnackBars();

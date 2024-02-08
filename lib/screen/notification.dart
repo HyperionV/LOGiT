@@ -1,8 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:logit/screen/blog.dart';
+import 'package:logit/widget/header.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -17,6 +16,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const ScreenHeader('Notification'),
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
           decoration: BoxDecoration(

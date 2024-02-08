@@ -6,7 +6,6 @@ import 'package:logit/screen/blog.dart';
 import 'package:logit/screen/notification.dart';
 import 'package:logit/screen/health_diary.dart';
 import 'package:logit/screen/reminder.dart';
-import 'package:logit/widget/header.dart';
 
 const List<String> titles = [
   'Health Blog',
@@ -30,7 +29,6 @@ class MainScreen extends StatefulWidget {
   }
 }
 
-int _currentIndex = 0;
 
 class _MainScreenState extends State<MainScreen> {
   PageController _pageController = PageController(initialPage: 0);
@@ -41,7 +39,6 @@ class _MainScreenState extends State<MainScreen> {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            ScreenHeader(titles[_currentIndex]),
             Expanded(
               child: PageView(
                 physics: const NeverScrollableScrollPhysics(),
@@ -60,11 +57,7 @@ class _MainScreenState extends State<MainScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         onTabChange: (value) {
           navigationTapped(value);
-          setState(() {
-            _currentIndex = value;
-          });
         },
-        selectedIndex: _currentIndex,
         tabs: const [
           GButton(icon: Icons.home, text: 'Home'),
           GButton(icon: Icons.health_and_safety, text: 'Health Diary'),

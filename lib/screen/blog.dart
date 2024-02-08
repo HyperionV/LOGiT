@@ -1,16 +1,13 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:logit/model/article.dart';
 import 'package:logit/widget/bookmark.dart';
 import 'package:logit/widget/discovery.dart';
-import 'package:logit/screen/notification.dart';
-import 'package:logit/screen/health_diary.dart';
-import 'package:logit/screen/reminder.dart';
+import 'package:logit/widget/header.dart';
 
 class HealthBlog extends StatefulWidget {
-  const HealthBlog({Key? key});
+  const HealthBlog({super.key});
 
   @override
   _HealthBlogState createState() => _HealthBlogState();
@@ -23,6 +20,7 @@ class _HealthBlogState extends State<HealthBlog> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const ScreenHeader('Health Blog'),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
             decoration: BoxDecoration(
@@ -62,7 +60,7 @@ class _HealthBlogState extends State<HealthBlog> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: SizedBox(
-              height: 210,
+              height: 220,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: bookmarkedArticles.length,

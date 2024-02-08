@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:logit/screen/profile.dart';
+import 'package:logit/model/user.dart';
 
 class ScreenHeader extends StatelessWidget {
   final String title;
@@ -24,7 +26,9 @@ class ScreenHeader extends StatelessWidget {
               size: 45,
             ),
             onPressed: () {
-              // Handle button press
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return ProfileScreen(users[0]);
+              }));
             },
           ),
         ],

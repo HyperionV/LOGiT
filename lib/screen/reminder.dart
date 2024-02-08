@@ -1,11 +1,10 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:logit/screen/blog.dart';
+import 'package:logit/widget/date_row.dart';
 
 class ReminderScreen extends StatefulWidget {
-  const ReminderScreen({Key? key}) : super(key: key);
+  const ReminderScreen({super.key});
 
   @override
   _ReminderScreenState createState() => _ReminderScreenState();
@@ -17,31 +16,41 @@ class _ReminderScreenState extends State<ReminderScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(24),
-            border: Border.all(
-              color: Colors.grey,
-              width: 1,
-            ),
-          ),
-          child: const Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                child: Icon(Icons.search),
-              ),
-              Expanded(
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Search for articles, titles, etc.',
-                  ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 16),
+              child: Text(
+                'Reminder',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            ],
-          ),
+            ),
+            Spacer(),
+            IconButton(
+              icon: Icon(
+                Icons.edit_calendar_rounded,
+                size: 35,
+              ),
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: const Icon(
+                Icons.medical_information_rounded,
+                size: 35,
+              ),
+              onPressed: () {},
+            ),
+            const SizedBox(width: 16),
+          ],
         ),
+        SizedBox(
+          height: 120,
+          child: DateRow(),
+        )
       ],
     );
   }
