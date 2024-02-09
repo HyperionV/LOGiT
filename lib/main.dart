@@ -19,7 +19,7 @@ class App extends StatelessWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return MaterialApp(
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),

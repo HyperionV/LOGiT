@@ -24,7 +24,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
               child: Text(
                 'Reminder',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 32,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -47,9 +47,11 @@ class _ReminderScreenState extends State<ReminderScreen> {
             const SizedBox(width: 16),
           ],
         ),
-        SizedBox(
-          height: 120,
-          child: DateRow(),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
+            child: DateRow(),
+          ),
         )
       ],
     );

@@ -7,7 +7,7 @@ class ScreenHeader extends StatelessWidget {
   const ScreenHeader(this.title, {super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       child: Row(
