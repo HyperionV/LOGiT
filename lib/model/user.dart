@@ -1,11 +1,11 @@
 class UserData {
   final String uid;
-  final String fullName;
-  final String dob;
-  final String phoneNumber;
-  final String email;
-  final String address;
-  final String emergencyContact;
+  String fullName;
+  String dob;
+  String phoneNumber;
+  String email;
+  String address;
+  String emergencyContact;
 
   UserData(
     this.uid,
