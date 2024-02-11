@@ -3,37 +3,29 @@
 import 'package:flutter/material.dart';
 import 'package:logit/model/event.dart';
 
-class EditReminderModal extends StatefulWidget {
-  final ReminderEvent reminder;
+class AddReminderModal extends StatefulWidget {
+  final DateTime date;
   final VoidCallback onLongPress;
 
-  const EditReminderModal(this.reminder, this.onLongPress, {Key? key})
-      : super(key: key);
+  const AddReminderModal(this.date, this.onLongPress, {super.key});
 
   @override
-  _EditReminderModalState createState() => _EditReminderModalState();
+  _AddReminderModalState createState() => _AddReminderModalState();
 }
 
-class _EditReminderModalState extends State<EditReminderModal> {
+class _AddReminderModalState extends State<AddReminderModal> {
   late TextEditingController _titleController;
   late TimeOfDay _hourStart;
   late TimeOfDay _hourEnd;
+  late DateTime _endDate;
 
   @override
   void initState() {
     super.initState();
-    _titleController = TextEditingController(text: widget.reminder.description);
-    _hourStart = TimeOfDay(
-        hour: widget.reminder.hourStart.floor(),
-        minute:
-            ((widget.reminder.hourStart - widget.reminder.hourStart.floor()) *
-                    60)
-                .floor());
-    _hourEnd = TimeOfDay(
-        hour: widget.reminder.hourEnd.floor(),
-        minute:
-            ((widget.reminder.hourEnd - widget.reminder.hourEnd.floor()) * 60)
-                .floor());
+    _titleController = TextEditingController(text: '');
+    _hourStart = TimeOfDay(hour: 0, minute: 0);
+    _hourEnd = TimeOfDay(hour: 0, minute: 0);
+    _endDate = widget.date;
   }
 
   @override
@@ -58,6 +50,20 @@ class _EditReminderModalState extends State<EditReminderModal> {
     }
   }
 
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _endDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != _endDate) {
+      setState(() {
+        _endDate = picked;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -68,7 +74,7 @@ class _EditReminderModalState extends State<EditReminderModal> {
           Row(
             children: [
               const Text(
-                'Edit Reminder',
+                'Create Reminder',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -80,7 +86,7 @@ class _EditReminderModalState extends State<EditReminderModal> {
           TextField(
             controller: _titleController,
             decoration: InputDecoration(
-              // labelText: 'Title',
+              hintText: 'Enter a title',
               prefixIcon: const Icon(Icons.title),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
@@ -107,6 +113,23 @@ class _EditReminderModalState extends State<EditReminderModal> {
             width: double.infinity,
             child: Column(
               children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      Icon(Icons.calendar_today),
+                      const SizedBox(width: 8.0),
+                      Text('End Date:', style: TextStyle(fontSize: 16.0)),
+                      const Spacer(),
+                      TextButton(
+                        onPressed: () => _selectDate(context),
+                        child: Text(
+                          formatter.format(_endDate),
+                          style: TextStyle(fontSize: 16.0),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 Expanded(
                   child: Row(
                     // mainAxisAlignment: MainAxisAlignment.end,
@@ -157,11 +180,17 @@ class _EditReminderModalState extends State<EditReminderModal> {
               const SizedBox(width: 8.0),
               ElevatedButton(
                 onPressed: () {
-                  widget.reminder.description = _titleController.text;
-                  widget.reminder.hourStart =
-                      _hourStart.hour + _hourStart.minute / 60.0;
-                  widget.reminder.hourEnd =
-                      _hourEnd.hour + _hourEnd.minute / 60.0;
+                  if (!events.containsKey(formatDate(_endDate))) {
+                    events[formatDate(_endDate)] = [];
+                  }
+                  events[formatDate(_endDate)]!.add(
+                    ReminderEvent(
+                      _endDate,
+                      _titleController.text,
+                      _hourStart.hour + _hourStart.minute / 60.0,
+                      _hourEnd.hour + _hourEnd.minute / 60.0,
+                    ),
+                  );
                   widget.onLongPress();
                   Navigator.pop(context);
                 },

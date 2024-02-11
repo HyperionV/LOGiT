@@ -28,7 +28,14 @@ class _ReminderCardState extends State<ReminderCard> {
     widget.onLongPress();
   }
 
-  bool isChecked = false;
+  late bool isChecked;
+
+  @override
+  void initState() {
+    isChecked = widget.event.isDone;
+    super.initState();
+  }
+
   final Color _cardColor = const Color.fromARGB(255, 172, 237, 174);
   @override
   Widget build(BuildContext context) {
@@ -44,6 +51,7 @@ class _ReminderCardState extends State<ReminderCard> {
         onTap: () {
           setState(() {
             isChecked = !isChecked;
+            widget.event.isDone = !widget.event.isDone;
           });
         },
         child: Container(

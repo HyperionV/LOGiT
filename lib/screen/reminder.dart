@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:logit/widget/date_picker.dart';
 import 'package:logit/widget/reminder_card.dart';
 import 'package:logit/model/event.dart';
+import 'package:logit/widget/create_reminder.dart';
 
 class ReminderScreen extends StatefulWidget {
   const ReminderScreen({super.key});
@@ -27,12 +28,18 @@ class _ReminderScreenState extends State<ReminderScreen> {
     });
   }
 
-  String formatDate(DateTime date) {
-    return '${date.day}/${date.month}/${date.year}';
-  }
-
   void _onLongPress() {
     setState(() {});
+  }
+
+  void _addNewReminder() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return AddReminderModal(selectedDate!, _onLongPress);
+      },
+    );
   }
 
   void _removeReminder(ReminderEvent reminder) {
@@ -96,7 +103,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
                   Icons.edit_calendar_rounded,
                   size: 35,
                 ),
-                onPressed: () {},
+                onPressed: _addNewReminder,
               ),
               IconButton(
                 icon: const Icon(
