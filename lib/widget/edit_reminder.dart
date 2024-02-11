@@ -80,7 +80,7 @@ class _EditReminderModalState extends State<EditReminderModal> {
           TextField(
             controller: _titleController,
             decoration: InputDecoration(
-              labelText: 'Title',
+              // labelText: 'Title',
               prefixIcon: const Icon(Icons.title),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
@@ -102,38 +102,47 @@ class _EditReminderModalState extends State<EditReminderModal> {
             textCapitalization: TextCapitalization.none,
           ),
           const SizedBox(height: 32.0),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    Text('Start Hour: ', style: TextStyle(fontSize: 16.0)),
-                    TextButton(
-                      onPressed: () => _selectTime(context, true),
-                      child: Text(
-                        _hourStart.format(context),
-                        style: TextStyle(fontSize: 16.0),
+          SizedBox(
+            height: 100,
+            width: double.infinity,
+            child: Column(
+              children: [
+                Expanded(
+                  child: Row(
+                    // mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Icon(Icons.access_time),
+                      const SizedBox(width: 8.0),
+                      Text('From: ', style: TextStyle(fontSize: 16.0)),
+                      const Spacer(),
+                      TextButton(
+                        onPressed: () => _selectTime(context, true),
+                        child: Text(
+                          _hourStart.format(context),
+                          style: TextStyle(fontSize: 16.0),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(width: 16.0),
-              Expanded(
-                child: Row(
-                  children: [
-                    Text('End Hour', style: TextStyle(fontSize: 16.0)),
-                    TextButton(
-                      onPressed: () => _selectTime(context, false),
-                      child: Text(_hourEnd.format(context),
-                          style: TextStyle(fontSize: 16.0)),
-                    ),
-                  ],
+                const SizedBox(width: 16.0),
+                Expanded(
+                  child: Row(
+                    children: [
+                      Icon(Icons.access_time),
+                      const SizedBox(width: 8.0),
+                      Text('To:', style: TextStyle(fontSize: 16.0)),
+                      const Spacer(),
+                      TextButton(
+                        onPressed: () => _selectTime(context, false),
+                        child: Text(_hourEnd.format(context),
+                            style: TextStyle(fontSize: 16.0)),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
 
           const SizedBox(height: 16.0),
