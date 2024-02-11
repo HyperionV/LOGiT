@@ -5,6 +5,7 @@ import 'package:logit/widget/date_picker.dart';
 import 'package:logit/widget/reminder_card.dart';
 import 'package:logit/model/event.dart';
 import 'package:logit/widget/create_reminder.dart';
+import 'package:logit/screen/medical_reminder.dart';
 
 class ReminderScreen extends StatefulWidget {
   const ReminderScreen({super.key});
@@ -110,7 +111,14 @@ class _ReminderScreenState extends State<ReminderScreen> {
                   Icons.medical_information_rounded,
                   size: 35,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MedicalReminder(),
+                    ),
+                  );
+                },
               ),
               const SizedBox(width: 16),
             ],
