@@ -1,7 +1,10 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:logit/model/user.dart';
 import 'package:logit/widget/header.dart';
+import 'package:logit/widget/notification.dart';
+import 'package:logit/model/notifications.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -16,7 +19,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const ScreenHeader('Notification'),
+        ScreenHeader('Notification'),
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
           decoration: BoxDecoration(
@@ -35,12 +38,23 @@ class _NotificationScreenState extends State<NotificationScreen> {
               Expanded(
                 child: TextField(
                   decoration: InputDecoration(
-                    hintText: 'Search for articles, titles, etc.',
+                    hintText: 'Search for sender, message, etc.',
                     border: InputBorder.none,
                   ),
                 ),
               ),
             ],
+          ),
+        ),
+        SizedBox(height: 20),
+        Expanded(
+          child: ListView.builder(
+            itemCount: 5,
+            itemBuilder: (ctx, index) {
+              return NotificationItem(
+                NotificationModel(users[0], 1, DateTime.now()),
+              );
+            },
           ),
         ),
       ],

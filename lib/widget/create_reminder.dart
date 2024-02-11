@@ -6,8 +6,13 @@ import 'package:logit/model/event.dart';
 class AddReminderModal extends StatefulWidget {
   final DateTime date;
   final VoidCallback onLongPress;
+  final ReminderEvent reminder;
 
-  const AddReminderModal(this.date, this.onLongPress, {super.key});
+  AddReminderModal(this.date, this.onLongPress, {super.key})
+      : reminder = ReminderEvent(date, '', 0, 0);
+
+  const AddReminderModal.createWith(this.date, this.onLongPress, this.reminder,
+      {super.key});
 
   @override
   _AddReminderModalState createState() => _AddReminderModalState();
@@ -23,9 +28,13 @@ class _AddReminderModalState extends State<AddReminderModal> {
   void initState() {
     super.initState();
     _titleController = TextEditingController(text: '');
-    _hourStart = TimeOfDay(hour: 0, minute: 0);
-    _hourEnd = TimeOfDay(hour: 0, minute: 0);
-    _endDate = widget.date;
+    _hourStart = TimeOfDay(
+        hour: widget.reminder.hourStart.floor(),
+        minute: ((widget.reminder.hourStart % 1) * 60).floor());
+    _hourEnd = TimeOfDay(
+        hour: widget.reminder.hourEnd.floor(),
+        minute: ((widget.reminder.hourEnd % 1) * 60).floor());
+    _endDate = widget.reminder.endDate;
   }
 
   @override
