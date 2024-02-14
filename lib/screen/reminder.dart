@@ -7,8 +7,16 @@ import 'package:logit/model/event.dart';
 import 'package:logit/widget/create_reminder.dart';
 import 'package:logit/screen/medical_reminder.dart';
 
+void invokeCallBack() {
+  _ReminderScreenState()._onLongPress();
+}
+
 class ReminderScreen extends StatefulWidget {
-  const ReminderScreen({super.key});
+  ReminderScreen({super.key}) : selectedDate = DateTime.now();
+
+  const ReminderScreen.openAt(this.selectedDate, {super.key});
+
+  final DateTime? selectedDate;
 
   @override
   _ReminderScreenState createState() => _ReminderScreenState();
@@ -19,21 +27,24 @@ class _ReminderScreenState extends State<ReminderScreen> {
 
   @override
   void initState() {
-    selectedDate = DateTime.now();
+    selectedDate =
+        widget.selectedDate == null ? widget.selectedDate : DateTime.now();
     super.initState();
   }
 
   void _onDateSelected(DateTime date) {
-    setState(() {
-      selectedDate = date;
-    });
+    setState(
+      () {
+        selectedDate = date;
+      },
+    );
   }
 
   void _onLongPress() {
     setState(() {});
   }
 
-  void _addNewReminder() {
+  void addNewReminder() {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -78,6 +89,12 @@ class _ReminderScreenState extends State<ReminderScreen> {
     }
   }
 
+  void openAt(DateTime time) {
+    setState(() {
+      selectedDate = time;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -104,7 +121,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
                   Icons.edit_calendar_rounded,
                   size: 35,
                 ),
-                onPressed: _addNewReminder,
+                onPressed: addNewReminder,
               ),
               IconButton(
                 icon: const Icon(

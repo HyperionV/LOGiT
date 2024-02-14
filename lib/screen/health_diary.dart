@@ -1,7 +1,6 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:logit/widget/header.dart';
 
 class HealthDiary extends StatefulWidget {
   const HealthDiary({super.key});
@@ -16,30 +15,24 @@ class _HealthDiaryState extends State<HealthDiary> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const ScreenHeader('Health Diary'),
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(24),
-            border: Border.all(
-              color: Colors.grey,
-              width: 1,
-            ),
-          ),
-          child: const Row(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                child: Icon(Icons.search),
-              ),
-              Expanded(
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Search for articles, titles, etc.',
-                    border: InputBorder.none,
-                  ),
+              Text(
+                'Health Diary',
+                style: const TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
+              IconButton(
+                  icon: const Icon(
+                    Icons.qr_code_scanner_rounded,
+                    size: 40,
+                  ),
+                  onPressed: () {}),
             ],
           ),
         ),

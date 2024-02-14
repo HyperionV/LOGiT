@@ -7,7 +7,7 @@ import 'package:logit/widget/notification.dart';
 import 'package:logit/model/notifications.dart';
 
 class NotificationScreen extends StatefulWidget {
-  const NotificationScreen({Key? key}) : super(key: key);
+  const NotificationScreen({super.key});
 
   @override
   _NotificationScreenState createState() => _NotificationScreenState();
@@ -52,7 +52,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             itemCount: 5,
             itemBuilder: (ctx, index) {
               return NotificationItem(
-                NotificationModel(users[0], 1, DateTime.now()),
+                NotificationModel(users[0], 3, DateTime.now()),
               );
             },
           ),

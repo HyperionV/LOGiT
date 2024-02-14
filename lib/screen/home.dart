@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, prefer_const_constructors, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -14,21 +14,25 @@ const List<String> titles = [
   'Reminders',
 ];
 
-const List<Widget> screens = [
-  HealthBlog(),
-  HealthDiary(),
-  NotificationScreen(),
-  ReminderScreen(),
-];
-
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  MainScreen({super.key})
+      : initialPage = 0,
+        selectedDate = null;
+
+  int initialPage;
+  final DateTime? selectedDate;
+
+  MainScreen.openReminderAt({
+    super.key,
+    this.initialPage = 0,
+    this.selectedDate,
+  });
+
   @override
   State<MainScreen> createState() {
     return _MainScreenState();
   }
 }
-
 
 class _MainScreenState extends State<MainScreen> {
   PageController _pageController = PageController(initialPage: 0);
@@ -43,7 +47,15 @@ class _MainScreenState extends State<MainScreen> {
               child: PageView(
                 physics: const NeverScrollableScrollPhysics(),
                 controller: _pageController,
-                children: List.generate(4, (index) => screens[index]),
+                children: [
+                  HealthBlog(),
+                  HealthDiary(),
+                  NotificationScreen(),
+                  if (widget.selectedDate != null)
+                    ReminderScreen.openAt(widget.selectedDate!)
+                  else
+                    ReminderScreen(),
+                ],
               ),
             ),
           ],
@@ -58,6 +70,7 @@ class _MainScreenState extends State<MainScreen> {
         onTabChange: (value) {
           navigationTapped(value);
         },
+        selectedIndex: widget.initialPage,
         tabs: const [
           GButton(icon: Icons.home, text: 'Home'),
           GButton(icon: Icons.health_and_safety, text: 'Health Diary'),
@@ -69,12 +82,13 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void navigationTapped(int page) {
+    widget.initialPage = page;
     _pageController.jumpToPage(page);
   }
 
   @override
   void initState() {
-    _pageController = PageController(initialPage: 0);
+    _pageController = PageController(initialPage: widget.initialPage);
     super.initState();
   }
 

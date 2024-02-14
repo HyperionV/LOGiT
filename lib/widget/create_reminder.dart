@@ -27,7 +27,7 @@ class _AddReminderModalState extends State<AddReminderModal> {
   @override
   void initState() {
     super.initState();
-    _titleController = TextEditingController(text: '');
+    _titleController = TextEditingController(text: widget.reminder.description);
     _hourStart = TimeOfDay(
         hour: widget.reminder.hourStart.floor(),
         minute: ((widget.reminder.hourStart % 1) * 60).floor());
