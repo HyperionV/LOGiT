@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:logit/widget/treatment_list.dart';
+import 'package:logit/model/treatments.dart';
 
 class HealthDiary extends StatefulWidget {
   const HealthDiary({super.key});
@@ -11,6 +13,8 @@ class HealthDiary extends StatefulWidget {
 }
 
 class _HealthDiaryState extends State<HealthDiary> {
+  bool isCurrent = true;
+  List<Treatments> displaying = treatments;
   @override
   Widget build(BuildContext context) {
     final Color containerColor = Color.fromARGB(255, 106, 204, 171);
@@ -50,12 +54,13 @@ class _HealthDiaryState extends State<HealthDiary> {
                     Padding(
                       padding: const EdgeInsets.only(right: 24),
                       child: IconButton(
-                          icon: const Icon(
-                            Icons.qr_code_scanner_rounded,
-                            size: 32,
-                            color: Color.fromARGB(255, 244, 244, 244),
-                          ),
-                          onPressed: () {}),
+                        icon: const Icon(
+                          Icons.qr_code_scanner_rounded,
+                          size: 32,
+                          color: Color.fromARGB(255, 244, 244, 244),
+                        ),
+                        onPressed: () {},
+                      ),
                     ),
                   ],
                 ),
@@ -129,53 +134,97 @@ class _HealthDiaryState extends State<HealthDiary> {
               children: [
                 Expanded(
                   child: InkWell(
-                    // highlightColor: const Color.fromARGB(255, 225, 225, 225),
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 13),
-                        Text(
-                          'Current Logs',
-                          style: TextStyle(
-                              color: textColor1,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500),
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      child: Container(
+                        key: ValueKey<bool>(isCurrent),
+                        decoration: BoxDecoration(
+                          color: isCurrent
+                              ? const Color.fromARGB(255, 240, 240, 240)
+                              : Colors.transparent,
                         ),
-                        const Spacer(),
-                        Container(
-                          height: 3,
-                          width: 175,
-                          color: containerColor,
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 13),
+                            Text(
+                              'Current Logs',
+                              style: TextStyle(
+                                  color: textColor1,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            const Spacer(),
+                            if (isCurrent)
+                              Container(
+                                height: 3,
+                                width: 175,
+                                color: containerColor,
+                              ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      if (!isCurrent) {
+                        isCurrent = !isCurrent;
+
+                        setState(() {
+                          displaying = treatments;
+                        });
+                      }
+                    },
                   ),
                 ),
                 Expanded(
                   child: InkWell(
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 13),
-                        Text(
-                          'Past Treatments',
-                          style: TextStyle(
-                              color: textColor1,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500),
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      child: Container(
+                        key: ValueKey<bool>(!isCurrent),
+                        decoration: BoxDecoration(
+                          color: !isCurrent
+                              ? const Color.fromARGB(255, 240, 240, 240)
+                              : Colors.transparent,
                         ),
-                        const Spacer(),
-                        Container(
-                          height: 3,
-                          width: 175,
-                          color: containerColor,
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 13),
+                            Text(
+                              'Past Treatments',
+                              style: TextStyle(
+                                  color: textColor1,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            const Spacer(),
+                            if (!isCurrent)
+                              Container(
+                                height: 3,
+                                width: 175,
+                                color: containerColor,
+                              ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      if (isCurrent) {
+                        isCurrent = !isCurrent;
+                        setState(() {
+                          displaying = [];
+                        });
+                      }
+                    },
                   ),
                 ),
               ],
             ),
+          ),
+          Expanded(
+            child: Container(
+                decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 239, 239, 239)),
+                child: TreatmentList(displaying)),
           ),
         ],
       ),
