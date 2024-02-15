@@ -74,49 +74,29 @@ class _HealthDiaryState extends State<HealthDiary> {
                           'Good afternoon, have a great day!',
                         ),
                         const SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Column(
-                              children: [
-                                TextButton(
-                                  onPressed: () {},
-                                  style: TextButton.styleFrom(
-                                    foregroundColor: Colors.black,
-                                    backgroundColor:
-                                        Color.fromARGB(255, 245, 245, 245),
-                                    disabledForegroundColor:
-                                        Colors.grey.withOpacity(0.38),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0,
-                                      vertical: 4,
-                                    ),
-                                    child: Text(
-                                      'SYMPTOMS REPORT',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                InkWell(
-                                  child: Text(
-                                    'Same as yesterday',
-                                    style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  onTap: () {},
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                        // TextButton(
+                        //   onPressed: () {},
+                        //   style: TextButton.styleFrom(
+                        //     foregroundColor: Colors.black,
+                        //     backgroundColor:
+                        //         Color.fromARGB(255, 245, 245, 245),
+                        //     disabledForegroundColor:
+                        //         Colors.grey.withOpacity(0.38),
+                        //   ),
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.symmetric(
+                        //       horizontal: 16.0,
+                        //       vertical: 4,
+                        //     ),
+                        //     child: Text(
+                        //       'SYMPTOMS REPORT',
+                        //       style: TextStyle(
+                        //         fontWeight: FontWeight.bold,
+                        //         fontSize: 16,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                     const Spacer(),

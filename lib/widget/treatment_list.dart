@@ -14,6 +14,10 @@ class TreatmentList extends StatefulWidget {
 }
 
 class _TreatmentListState extends State<TreatmentList> {
+  void _onLongPress() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.treatmentList.isEmpty) {
@@ -29,10 +33,7 @@ class _TreatmentListState extends State<TreatmentList> {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           child: TreatmentCard(
             widget.treatmentList[index],
-            () {
-            },
-            () {
-            },
+            _onLongPress,
           ),
         );
       },

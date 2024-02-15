@@ -56,7 +56,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
 
   void _removeReminder(ReminderEvent reminder) {
     setState(() {
-      events[formatDate(selectedDate!)]!.remove(reminder);
+      events[formatddMMyy(selectedDate!)]!.remove(reminder);
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -68,7 +68,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
           onPressed: () {
             setState(
               () {
-                events[formatDate(selectedDate!)]!.insert(0, reminder);
+                events[formatddMMyy(selectedDate!)]!.insert(0, reminder);
                 // sortEvents();
               },
             );
@@ -79,7 +79,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
   }
 
   void sortEvents() {
-    final formattedDate = formatDate(selectedDate!);
+    final formattedDate = formatddMMyy(selectedDate!);
     final eventList = events[formattedDate];
 
     if (eventList != null) {
@@ -151,8 +151,8 @@ class _ReminderScreenState extends State<ReminderScreen> {
                     child: SingleChildScrollView(
                       child: Column(
                         children: selectedDate != null &&
-                                events[formatDate(selectedDate!)] != null
-                            ? events[formatDate(selectedDate!)]!.map((event) {
+                                events[formatddMMyy(selectedDate!)] != null
+                            ? events[formatddMMyy(selectedDate!)]!.map((event) {
                                 return Padding(
                                   padding: const EdgeInsets.symmetric(
                                     vertical: 8,

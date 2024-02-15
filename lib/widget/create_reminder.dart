@@ -145,7 +145,10 @@ class _AddReminderModalState extends State<AddReminderModal> {
                     children: [
                       Icon(Icons.access_time),
                       const SizedBox(width: 8.0),
-                      Text('From: ', style: TextStyle(fontSize: 16.0)),
+                      Text(
+                        'From: ',
+                        style: TextStyle(fontSize: 16.0),
+                      ),
                       const Spacer(),
                       TextButton(
                         onPressed: () => _selectTime(context, true),
@@ -167,8 +170,10 @@ class _AddReminderModalState extends State<AddReminderModal> {
                       const Spacer(),
                       TextButton(
                         onPressed: () => _selectTime(context, false),
-                        child: Text(_hourEnd.format(context),
-                            style: TextStyle(fontSize: 16.0)),
+                        child: Text(
+                          _hourEnd.format(context),
+                          style: TextStyle(fontSize: 16.0),
+                        ),
                       ),
                     ],
                   ),
@@ -189,10 +194,10 @@ class _AddReminderModalState extends State<AddReminderModal> {
               const SizedBox(width: 8.0),
               ElevatedButton(
                 onPressed: () {
-                  if (!events.containsKey(formatDate(_endDate))) {
-                    events[formatDate(_endDate)] = [];
+                  if (!events.containsKey(formatddMMyy(_endDate))) {
+                    events[formatddMMyy(_endDate)] = [];
                   }
-                  events[formatDate(_endDate)]!.add(
+                  events[formatddMMyy(_endDate)]!.add(
                     ReminderEvent(
                       _endDate,
                       _titleController.text,

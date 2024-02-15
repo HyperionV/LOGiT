@@ -11,8 +11,34 @@ String formatTime(double time) {
   return '$formattedHour:$formattedMinute $period';
 }
 
-String formatDate(DateTime date) {
+String formatddMMyy(DateTime date) {
   return '${date.day}/${date.month}/${date.year}';
+}
+
+String formatMMddYY(String dateStr) {
+  final parts = dateStr.split('/');
+  final day = parts[0];
+  final month = parts[1];
+  final year = parts[2];
+
+  final monthNames = [
+    '',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
+
+  final formattedDate = '${monthNames[int.parse(month)]} $day, $year';
+  return formattedDate;
 }
 
 class ReminderEvent {

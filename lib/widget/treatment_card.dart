@@ -2,14 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:logit/model/treatments.dart';
+import 'package:logit/screen/symptom_report.dart';
 
 class TreatmentCard extends StatefulWidget {
-  const TreatmentCard(this.treatment, this.onLongPress, this.onPress,
-      {super.key});
+  const TreatmentCard(this.treatment, this.onLongPress, {super.key});
 
   final Treatments treatment;
   final VoidCallback onLongPress;
-  final VoidCallback onPress;
 
   @override
   _TreatmentCardState createState() => _TreatmentCardState();
@@ -32,8 +31,16 @@ class _TreatmentCardState extends State<TreatmentCard> {
       height: 130,
       child: InkWell(
         onLongPress: widget.onLongPress,
-        onTap: widget.onPress,
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SymptomReport(widget.treatment.doctorUid),
+            ),
+          );
+        },
         child: Card(
+          elevation: 4,
           surfaceTintColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),

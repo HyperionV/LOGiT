@@ -5,6 +5,7 @@ class Treatments {
   String address;
   final DateTime startDate;
   DateTime endDate;
+  
 
   Treatments(
     this.title,

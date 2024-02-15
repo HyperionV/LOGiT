@@ -1,5 +1,6 @@
 class UserData {
   final String uid;
+  String imageUrl;
   String fullName;
   String dob;
   String phoneNumber;
@@ -9,6 +10,7 @@ class UserData {
 
   UserData(
     this.uid,
+    this.imageUrl,
     this.fullName,
     this.dob,
     this.phoneNumber,
@@ -20,6 +22,7 @@ class UserData {
   factory UserData.fromJson(Map<String, dynamic> json) {
     return UserData(
       json['uid'],
+      json['imageUrl'],
       json['fullName'],
       json['dob'],
       json['phoneNumber'],
@@ -45,6 +48,7 @@ class UserData {
 List<UserData> users = [
   UserData(
     '1',
+    'https://imageio.forbes.com/specials-images/imageserve/645a7e33044f4b35a044914e/Freddie-Highmore-as--The-Good-Doctor---Dr--Sean-Murphy-/960x0.jpg?format=jpg&width=1440',
     'John Doe',
     '01/01/1970',
     '1234567890',

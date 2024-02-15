@@ -20,13 +20,18 @@ class DisplayMessage extends StatelessWidget {
     final updatedString = string.replaceAll(regex, placeholder);
     final tokens = updatedString.split(RegExp(' '));
     final spans = tokens
-        .map((e) => e == placeholder
-            ? TextSpan(
-                text: '$target ',
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-              )
-            : TextSpan(text: '$e ', style: const TextStyle(fontSize: 14)))
+        .map(
+          (e) => e == placeholder
+              ? TextSpan(
+                  text: '$target ',
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 14),
+                )
+              : TextSpan(
+                  text: '$e ',
+                  style: const TextStyle(fontSize: 14),
+                ),
+        )
         .toList();
 
     return Text.rich(
