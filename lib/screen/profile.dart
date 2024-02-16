@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, library_private_types_in_public_api
 import 'package:flutter/material.dart';
 import 'package:logit/model/user.dart';
-import 'package:logit/screen/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:logit/main.dart';
 
 class InfoBox extends StatelessWidget {
   const InfoBox(
@@ -94,10 +94,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 InkWell(
                     onTap: () {
                       FirebaseAuth.instance.signOut();
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const AuthScreen()));
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => App()));
                     },
                     child: InfoBox('Logout', Icon(Icons.logout), false)),
                 const SizedBox(height: 32),
