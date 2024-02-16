@@ -6,6 +6,7 @@ import 'package:logit/widget/report_card.dart';
 import 'package:logit/model/report_item.dart';
 import 'package:logit/screen/medical_record.dart';
 import 'package:logit/model/medical_record.dart';
+import 'package:logit/screen/message.dart';
 
 class _CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {
   final double offsetX;
@@ -74,7 +75,14 @@ class _SymptomReportState extends State<SymptomReport> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MessageScreen(),
+                ),
+              );
+            },
             icon: Icon(
               Icons.notifications_none,
               size: 35,

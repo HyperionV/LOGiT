@@ -1,27 +1,27 @@
-class ReportItem {
+class ReportData {
   final String sender;
   final String receiver;
   final String content;
   final DateTime time;
 
-  ReportItem(this.sender, this.receiver, this.content, this.time);
+  ReportData(this.sender, this.receiver, this.content, this.time);
 }
 
-List<ReportItem> reports = [
-  ReportItem('Dr. A', 'Patient 1', 'Patient 1 has a high blood pressure',
+List<ReportData> reports = [
+  ReportData('Dr. A', 'Patient 1', 'Patient 1 has a high blood pressure',
       DateTime.now()),
-  ReportItem(
+  ReportData(
       'Dr. B', 'Patient 2', 'Patient 2 has a high blood sugar', DateTime.now()),
-  ReportItem(
+  ReportData(
       'Dr. C', 'Patient 3', 'Patient 3 has a high cholesterol', DateTime.now()),
-  ReportItem('Dr. D', 'Patient 4', 'Patient 4 has a high blood pressure',
+  ReportData('Dr. D', 'Patient 4', 'Patient 4 has a high blood pressure',
       DateTime.now()),
-  ReportItem(
+  ReportData(
       'Dr. E', 'Patient 5', 'Patient 5 has a high blood sugar', DateTime.now()),
-  ReportItem(
+  ReportData(
       'Dr. F', 'Patient 6', 'Patient 6 has a high cholesterol', DateTime.now()),
-  ReportItem('Dr. G', 'Patient 7', 'Patient 7 has a high blood pressure',
+  ReportData('Dr. G', 'Patient 7', 'Patient 7 has a high blood pressure',
       DateTime.now()),
-  ReportItem(
+  ReportData(
       'Dr. H', 'Patient 8', 'Patient 8 has a high blood sugar', DateTime.now()),
 ];

@@ -1,14 +1,14 @@
 import 'package:logit/model/diagnosis.dart';
 
-class MedicalRecordItem {
+class MedicalRecordData {
   final String fullName;
   final String recordID;
   String diagnosis;
   String critical;
   String facility;
-  List<DiagnosisItem> diagnosisList;
+  List<DiagnosisData> diagnosisList;
 
-  MedicalRecordItem(
+  MedicalRecordData(
     this.fullName,
     this.recordID,
     this.diagnosis,
@@ -18,8 +18,8 @@ class MedicalRecordItem {
   );
 }
 
-List<MedicalRecordItem> medicalRecords = [
-  MedicalRecordItem(
+List<MedicalRecordData> medicalRecords = [
+  MedicalRecordData(
     '1',
     '1',
     'Diagnosis 1',
@@ -27,7 +27,7 @@ List<MedicalRecordItem> medicalRecords = [
     'Facility 1',
     diagnosisList,
   ),
-  MedicalRecordItem(
+  MedicalRecordData(
     '2',
     '2',
     'Diagnosis 2',
@@ -35,7 +35,7 @@ List<MedicalRecordItem> medicalRecords = [
     'Facility 2',
     diagnosisList,
   ),
-  MedicalRecordItem(
+  MedicalRecordData(
     '3',
     '3',
     'Diagnosis 3',
@@ -43,7 +43,7 @@ List<MedicalRecordItem> medicalRecords = [
     'Facility 3',
     diagnosisList,
   ),
-  MedicalRecordItem(
+  MedicalRecordData(
     '4',
     '4',
     'Diagnosis 4',
@@ -51,7 +51,7 @@ List<MedicalRecordItem> medicalRecords = [
     'Facility 4',
     diagnosisList,
   ),
-  MedicalRecordItem(
+  MedicalRecordData(
     '5',
     '5',
     'Diagnosis 5',
@@ -59,7 +59,7 @@ List<MedicalRecordItem> medicalRecords = [
     'Facility 5',
     diagnosisList,
   ),
-  MedicalRecordItem(
+  MedicalRecordData(
     '6',
     '6',
     'Diagnosis 6',
@@ -67,7 +67,7 @@ List<MedicalRecordItem> medicalRecords = [
     'Facility 6',
     diagnosisList,
   ),
-  MedicalRecordItem(
+  MedicalRecordData(
     '7',
     '7',
     'Diagnosis 7',
@@ -75,7 +75,7 @@ List<MedicalRecordItem> medicalRecords = [
     'Facility 7',
     diagnosisList,
   ),
-  MedicalRecordItem(
+  MedicalRecordData(
     '8',
     '8',
     'Diagnosis 8',

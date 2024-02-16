@@ -52,7 +52,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             itemCount: 5,
             itemBuilder: (ctx, index) {
               return NotificationItem(
-                NotificationModel(users[0], 3, DateTime.now()),
+                NotificationData(users[0], 3, DateTime.now()),
               );
             },
           ),

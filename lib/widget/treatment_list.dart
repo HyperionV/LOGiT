@@ -7,7 +7,7 @@ import 'package:logit/model/treatments.dart';
 class TreatmentList extends StatefulWidget {
   const TreatmentList(this.treatmentList, {super.key});
 
-  final List<Treatments> treatmentList;
+  final List<TreatmentData> treatmentList;
 
   @override
   _TreatmentListState createState() => _TreatmentListState();

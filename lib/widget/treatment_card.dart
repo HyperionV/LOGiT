@@ -7,7 +7,7 @@ import 'package:logit/screen/symptom_report.dart';
 class TreatmentCard extends StatefulWidget {
   const TreatmentCard(this.treatment, this.onLongPress, {super.key});
 
-  final Treatments treatment;
+  final TreatmentData treatment;
   final VoidCallback onLongPress;
 
   @override

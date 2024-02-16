@@ -5,7 +5,7 @@ import 'package:logit/model/report_item.dart';
 import 'package:logit/model/event.dart';
 
 class ReportCard extends StatefulWidget {
-  final ReportItem report;
+  final ReportData report;
 
   const ReportCard(this.report, {Key? key}) : super(key: key);
 

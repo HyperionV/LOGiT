@@ -5,7 +5,7 @@ import 'package:logit/model/diagnosis.dart';
 import 'package:logit/model/event.dart';
 
 class DiagnosisCard extends StatefulWidget {
-  final DiagnosisItem report;
+  final DiagnosisData report;
 
   const DiagnosisCard(this.report, {super.key});
 

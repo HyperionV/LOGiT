@@ -5,7 +5,7 @@ import 'package:logit/model/medical_record.dart';
 import 'package:logit/widget/diagnosis_card.dart';
 
 class MedicalRecord extends StatefulWidget {
-  final MedicalRecordItem medicalRecord;
+  final MedicalRecordData medicalRecord;
 
   const MedicalRecord(this.medicalRecord, {super.key});
 

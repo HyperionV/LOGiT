@@ -21,11 +21,11 @@ List<String> message = [
 
 // filter theo medical tag
 
-class NotificationModel {
+class NotificationData {
   final UserData user;
   final int type;
   bool isRead = false;
   final DateTime time;
 
-  NotificationModel(this.user, this.type, this.time);
+  NotificationData(this.user, this.type, this.time);
 }

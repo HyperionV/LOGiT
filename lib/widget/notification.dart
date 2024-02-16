@@ -5,6 +5,7 @@ import 'package:logit/model/notifications.dart';
 import 'package:logit/model/event.dart';
 import 'package:logit/widget/create_reminder.dart';
 import 'package:logit/screen/home.dart';
+import 'package:logit/screen/message.dart';
 
 class DisplayMessage extends StatelessWidget {
   final String string;
@@ -48,7 +49,7 @@ class NotificationItem extends StatefulWidget {
       this.notification, this.updateFunction,
       {super.key});
 
-  final NotificationModel notification;
+  final NotificationData notification;
   final VoidCallback updateFunction;
 
   static void _defaultUpdateFunction() {}
