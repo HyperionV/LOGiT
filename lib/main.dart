@@ -6,12 +6,15 @@ import 'package:logit/screen/auth.dart';
 import 'package:logit/screen/home.dart';
 import 'miscellaneous/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:logit/model/event.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  fetchEvents();
+  print(events);
   runApp(const App());
 }
 

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserData {
   final String uid;
   String imageUrl;
@@ -18,42 +20,25 @@ class UserData {
     this.address,
     this.emergencyContact,
   );
-
-  factory UserData.fromJson(Map<String, dynamic> json) {
-    return UserData(
-      json['uid'],
-      json['imageUrl'],
-      json['fullName'],
-      json['dob'],
-      json['phoneNumber'],
-      json['email'],
-      json['address'],
-      json['emergencyContact'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'uid': uid,
-      'fullName': fullName,
-      'dob': dob,
-      'phoneNumber': phoneNumber,
-      'email': email,
-      'address': address,
-      'emergencyContact': emergencyContact,
-    };
-  }
 }
 
-List<UserData> users = [
-  UserData(
-    '1',
-    'https://imageio.forbes.com/specials-images/imageserve/645a7e33044f4b35a044914e/Freddie-Highmore-as--The-Good-Doctor---Dr--Sean-Murphy-/960x0.jpg?format=jpg&width=1440',
-    'John Doe',
-    '01/01/1970',
-    '1234567890',
-    'john@john.vir',
-    '123 Main St, Anytown, USA',
-    '0987654321',
-  )
-];
+Future<UserData> fetchWithUID(String uid) async {
+  final DocumentSnapshot snapshot =
+      await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+  if (snapshot.exists) {
+    final data = snapshot.data() as Map<String, dynamic>;
+    return UserData(
+      uid,
+      data['imageUrl'],
+      data['fullName'],
+      data['dob'],
+      data['phoneNumber'],
+      data['email'],
+      data['address'],
+      data['emergencyContact'],
+    );
+  } else {
+    throw Exception('User data not found');
+  }
+}

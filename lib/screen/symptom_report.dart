@@ -53,296 +53,314 @@ class SymptomReport extends StatefulWidget {
 
 class _SymptomReportState extends State<SymptomReport> {
   final Color iconColor = Color.fromARGB(255, 15, 145, 133);
-  final UserData user = users[0];
   String selectedFilter = 'All';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.only(left: 55),
-          child: Text(
-            'Symptom Report',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-          ),
-        ),
-        leading: IconButton(
-          icon: Icon(Icons.close, size: 30, color: iconColor),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MessageScreen(),
+    return FutureBuilder(
+      future: fetchWithUID(widget.doctorID),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          final UserData user = snapshot.data!;
+          return Scaffold(
+            appBar: AppBar(
+              title: Padding(
+                padding: const EdgeInsets.only(left: 55),
+                child: Text(
+                  'Symptom Report',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                 ),
-              );
-            },
-            icon: Icon(
-              Icons.notifications_none,
-              size: 35,
-              color: iconColor,
-            ),
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MedicalRecord(medicalRecords[0]),
-                ),
-              );
-            },
-            icon: Icon(
-              Icons.info_outline_rounded,
-              size: 35,
-              color: iconColor,
-            ),
-          ),
-          const SizedBox(width: 12)
-        ],
-      ),
-      body: Column(
-        children: [
-          const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 18,
-            ),
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 255, 255, 255),
+              ),
+              leading: IconButton(
+                icon: Icon(Icons.close, size: 30, color: iconColor),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MessageScreen(),
+                      ),
+                    );
+                  },
+                  icon: Icon(
+                    Icons.notifications_none,
+                    size: 35,
+                    color: iconColor,
                   ),
-                  child: Row(
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MedicalRecord(medicalRecords[0]),
+                      ),
+                    );
+                  },
+                  icon: Icon(
+                    Icons.info_outline_rounded,
+                    size: 35,
+                    color: iconColor,
+                  ),
+                ),
+                const SizedBox(width: 12)
+              ],
+            ),
+            body: Column(
+              children: [
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18,
+                  ),
+                  child: Column(
                     children: [
-                      ClipOval(
-                        child: Image.network(
-                          user.imageUrl,
-                          width: 76,
-                          height: 76,
-                          fit: BoxFit.cover,
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                        ),
+                        child: Row(
+                          children: [
+                            ClipOval(
+                              child: Image.network(
+                                user.imageUrl,
+                                width: 76,
+                                height: 76,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  user.fullName,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  user.address,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color.fromARGB(255, 125, 125, 125),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 4,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Email: ',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                        color:
+                                            Color.fromARGB(255, 125, 125, 125),
+                                      ),
+                                    ),
+                                    Text(
+                                      user.email,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color:
+                                            Color.fromARGB(255, 125, 125, 125),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Phone: ',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                        color:
+                                            Color.fromARGB(255, 125, 125, 125),
+                                      ),
+                                    ),
+                                    Text(
+                                      user.phoneNumber,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color:
+                                            Color.fromARGB(255, 125, 125, 125),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const Spacer(),
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.calendar_month,
+                                size: 30,
+                                color: iconColor,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(width: 16),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            user.fullName,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            user.address,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromARGB(255, 125, 125, 125),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Email: ',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color.fromARGB(255, 125, 125, 125),
-                                ),
-                              ),
-                              Text(
-                                user.email,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color.fromARGB(255, 125, 125, 125),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Phone: ',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color.fromARGB(255, 125, 125, 125),
-                                ),
-                              ),
-                              Text(
-                                user.phoneNumber,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color.fromARGB(255, 125, 125, 125),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.calendar_month,
-                          size: 30,
-                          color: iconColor,
-                        ),
-                      ),
+                      const SizedBox(height: 16),
                     ],
                   ),
                 ),
-                const SizedBox(height: 16),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 242, 242, 242),
-              ),
-              child: Column(
-                children: [
-                  const SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 18),
-                    child: Row(
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 242, 242, 242),
+                    ),
+                    child: Column(
                       children: [
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Color.fromARGB(95, 87, 191, 156)),
-                              borderRadius: BorderRadius.circular(4),
-                              color: Colors.white,
-                            ),
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            child: DropdownButton<String>(
-                              // value: selectedFilter,
-                              icon: Icon(
-                                Icons.keyboard_arrow_down,
-                                color: iconColor,
-                                size: 30,
-                              ),
-                              iconSize: 24,
-                              elevation: 16,
-                              hint: Text('Choose a filter'),
-                              style: TextStyle(color: Colors.black),
-                              underline: SizedBox(),
-                              isExpanded: true,
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  selectedFilter = newValue ?? '';
-                                });
-                              },
-                              items: <String>[
-                                'All',
-                                'Option 1',
-                                'Option 2',
-                                'Option 3'
-                              ].map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(
-                                    value,
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500),
+                        const SizedBox(height: 20),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 18),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color:
+                                            Color.fromARGB(95, 87, 191, 156)),
+                                    borderRadius: BorderRadius.circular(4),
+                                    color: Colors.white,
                                   ),
-                                );
-                              }).toList(),
-                            ),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12),
+                                  child: DropdownButton<String>(
+                                    // value: selectedFilter,
+                                    icon: Icon(
+                                      Icons.keyboard_arrow_down,
+                                      color: iconColor,
+                                      size: 30,
+                                    ),
+                                    iconSize: 24,
+                                    elevation: 16,
+                                    hint: Text('Choose a filter'),
+                                    style: TextStyle(color: Colors.black),
+                                    underline: SizedBox(),
+                                    isExpanded: true,
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        selectedFilter = newValue ?? '';
+                                      });
+                                    },
+                                    items: <String>[
+                                      'All',
+                                      'Option 1',
+                                      'Option 2',
+                                      'Option 3'
+                                    ].map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(
+                                          value,
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Container(
+                                height: 48,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Color.fromARGB(95, 87, 191, 156)),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: TextButton.icon(
+                                  icon: Icon(
+                                    Icons.filter_list_outlined,
+                                    color: iconColor,
+                                  ),
+                                  onPressed: () {},
+                                  style: TextButton.styleFrom(
+                                    backgroundColor:
+                                        Color.fromARGB(255, 255, 255, 255),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 8,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                  ),
+                                  label: Text(
+                                    'Filter',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(width: 16),
-                        Container(
-                          height: 48,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Color.fromARGB(95, 87, 191, 156)),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: TextButton.icon(
-                            icon: Icon(
-                              Icons.filter_list_outlined,
-                              color: iconColor,
-                            ),
-                            onPressed: () {},
-                            style: TextButton.styleFrom(
-                              backgroundColor:
-                                  Color.fromARGB(255, 255, 255, 255),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 8,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                            ),
-                            label: Text(
-                              'Filter',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black,
-                              ),
-                            ),
+                        const SizedBox(height: 20),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: 5,
+                            itemBuilder: (ctx, index) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 18, vertical: 8),
+                                child: ReportCard(reports[index]),
+                              );
+                            },
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: 5,
-                      itemBuilder: (ctx, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 18, vertical: 8),
-                          child: ReportCard(reports[index]),
-                        );
-                      },
-                    ),
-                  ),
-                ],
+                ),
+                // const SizedBox(height: 20),
+              ],
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {},
+              backgroundColor: Color.fromARGB(255, 70, 188, 149),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+              ),
+              child: Icon(
+                Icons.add,
+                color: Colors.white,
+                size: 50,
               ),
             ),
-          ),
-          // const SizedBox(height: 20),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: Color.fromARGB(255, 70, 188, 149),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50),
-        ),
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-          size: 50,
-        ),
-      ),
-      floatingActionButtonLocation: _CustomFloatingActionButtonLocation(
-        offsetX: 100,
-        offsetY: 100,
-      ),
-      floatingActionButtonAnimator: _CustomFloatingActionButtonAnimator(),
+            floatingActionButtonLocation: _CustomFloatingActionButtonLocation(
+              offsetX: 100,
+              offsetY: 100,
+            ),
+            floatingActionButtonAnimator: _CustomFloatingActionButtonAnimator(),
+          );
+        }
+      },
     );
   }
 }

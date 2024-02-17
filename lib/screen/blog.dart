@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:logit/model/article.dart';
@@ -57,21 +57,36 @@ class _HealthBlogState extends State<HealthBlog> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: SizedBox(
-              height: 220,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: bookmarkedArticles.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: BookmarkCard(bookmarkedArticles[index]),
-                  );
-                },
-              ),
-            ),
+          FutureBuilder(
+            future: fetchArticlesData(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else {
+                final List<Article> bookmarkedArticles = snapshot.data!;
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: bookmarkedArticles.isEmpty
+                      ? Center(child: const Text('No bookmarked articles yet!'))
+                      : SizedBox(
+                          height: bookmarkedArticles.isEmpty ? 0 : 220,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: bookmarkedArticles.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 4),
+                                child: BookmarkCard(bookmarkedArticles[index]),
+                              );
+                            },
+                          ),
+                        ),
+                );
+              }
+            },
           ),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 16),
@@ -85,13 +100,13 @@ class _HealthBlogState extends State<HealthBlog> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: bookmarkedArticles.length,
+              itemCount: discovery.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: 8,
                   ),
-                  child: DiscoveryCard(bookmarkedArticles[index]),
+                  child: DiscoveryCard(discovery[index]),
                 );
               },
             ),

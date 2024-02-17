@@ -163,6 +163,7 @@ class _EditReminderModalState extends State<EditReminderModal> {
                   widget.reminder.hourEnd =
                       _hourEnd.hour + _hourEnd.minute / 60.0;
                   widget.onLongPress();
+                  updateSchedule();
                   Navigator.pop(context);
                 },
                 child: const Text('Save'),

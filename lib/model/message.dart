@@ -9,14 +9,14 @@ class MessageData {
 }
 
 List<MessageData> messages = [
-  MessageData(
-    users[0],
-    'Hello, how are you?',
-    DateTime.now(),
-  ),
-  MessageData(
-    users[0],
-    'Hi! Please let me know if you need any help',
-    DateTime.now(),
-  ),
+  // MessageData(
+  //   users[0],
+  //   'Hello, how are you?',
+  //   DateTime.now(),
+  // ),
+  // MessageData(
+  //   users[0],
+  //   'Hi! Please let me know if you need any help',
+  //   DateTime.now(),
+  // ),
 ];

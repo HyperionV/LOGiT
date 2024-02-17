@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logit/model/user.dart';
 
 List<String> message = [
@@ -22,10 +23,11 @@ List<String> message = [
 // filter theo medical tag
 
 class NotificationData {
-  final UserData user;
+  final UserData sender;
   final int type;
   bool isRead = false;
-  final DateTime time;
+  final Timestamp createTime;
+  final Timestamp timeAttached;
 
-  NotificationData(this.user, this.type, this.time);
+  NotificationData(this.sender, this.type, this.createTime, this.timeAttached);
 }

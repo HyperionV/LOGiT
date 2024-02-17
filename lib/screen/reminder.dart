@@ -1,5 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:logit/widget/date_picker.dart';
 import 'package:logit/widget/reminder_card.dart';
@@ -12,30 +13,30 @@ void invokeCallBack() {
 }
 
 class ReminderScreen extends StatefulWidget {
-  ReminderScreen({super.key}) : selectedDate = DateTime.now();
+  ReminderScreen({super.key}) : selectedDate = Timestamp.now();
 
   const ReminderScreen.openAt(this.selectedDate, {super.key});
 
-  final DateTime? selectedDate;
+  final Timestamp? selectedDate;
 
   @override
   _ReminderScreenState createState() => _ReminderScreenState();
 }
 
 class _ReminderScreenState extends State<ReminderScreen> {
-  DateTime? selectedDate;
+  Timestamp? selectedDate;
 
   @override
   void initState() {
     selectedDate =
-        widget.selectedDate == null ? widget.selectedDate : DateTime.now();
+        widget.selectedDate == null ? widget.selectedDate : Timestamp.now();
     super.initState();
   }
 
   void _onDateSelected(DateTime date) {
     setState(
       () {
-        selectedDate = date;
+        selectedDate = Timestamp.fromDate(date);
       },
     );
   }
@@ -56,7 +57,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
 
   void _removeReminder(ReminderEvent reminder) {
     setState(() {
-      events[formatddMMyy(selectedDate!)]!.remove(reminder);
+      events[formatddMMyy(selectedDate!.toDate())]!.remove(reminder);
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -68,7 +69,8 @@ class _ReminderScreenState extends State<ReminderScreen> {
           onPressed: () {
             setState(
               () {
-                events[formatddMMyy(selectedDate!)]!.insert(0, reminder);
+                events[formatddMMyy(selectedDate!.toDate())]!
+                    .insert(0, reminder);
                 // sortEvents();
               },
             );
@@ -76,10 +78,11 @@ class _ReminderScreenState extends State<ReminderScreen> {
         ),
       ),
     );
+    updateSchedule();
   }
 
   void sortEvents() {
-    final formattedDate = formatddMMyy(selectedDate!);
+    final formattedDate = formatddMMyy(selectedDate!.toDate());
     final eventList = events[formattedDate];
 
     if (eventList != null) {
@@ -89,7 +92,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
     }
   }
 
-  void openAt(DateTime time) {
+  void openAt(Timestamp time) {
     setState(() {
       selectedDate = time;
     });
@@ -151,8 +154,10 @@ class _ReminderScreenState extends State<ReminderScreen> {
                     child: SingleChildScrollView(
                       child: Column(
                         children: selectedDate != null &&
-                                events[formatddMMyy(selectedDate!)] != null
-                            ? events[formatddMMyy(selectedDate!)]!.map((event) {
+                                events[formatddMMyy(selectedDate!.toDate())] !=
+                                    null
+                            ? events[formatddMMyy(selectedDate!.toDate())]!
+                                .map((event) {
                                 return Padding(
                                   padding: const EdgeInsets.symmetric(
                                     vertical: 8,

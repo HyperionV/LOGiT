@@ -1,11 +1,11 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_const_constructors, avoid_print
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:logit/model/notifications.dart';
 import 'package:logit/model/event.dart';
 import 'package:logit/widget/create_reminder.dart';
 import 'package:logit/screen/home.dart';
-import 'package:logit/screen/message.dart';
 
 class DisplayMessage extends StatelessWidget {
   final String string;
@@ -69,12 +69,13 @@ class _NotificationItemState extends State<NotificationItem> {
           backgroundColor: Color.fromARGB(255, 201, 201, 201),
         ),
         title: DisplayMessage(
-            '${widget.notification.user.fullName}${message[widget.notification.type]}',
-            widget.notification.user.fullName),
+            '${widget.notification.sender.fullName}${message[widget.notification.type]}',
+            widget.notification.sender.fullName),
         subtitle: Padding(
           padding: const EdgeInsets.only(top: 8),
           child: Text(
-            '${formatTime(widget.notification.time.hour + widget.notification.time.minute / 60)}, ${formatter.format(widget.notification.time)}',
+            // '${formatTime(widget.notification.createTime.seconds + widget.notification.time.minute / 60)}, ${formatter.format(widget.notification.time)}',
+            widget.notification.createTime.toDate().toString(),
             style: TextStyle(
               fontSize: 13,
             ),
@@ -108,7 +109,7 @@ class _NotificationItemState extends State<NotificationItem> {
                 MaterialPageRoute(
                   builder: (context) => MainScreen.openReminderAt(
                     initialPage: 3,
-                    selectedDate: widget.notification.time,
+                    selectedDate: widget.notification.createTime.toDate(),
                   ),
                 ),
               );
@@ -119,7 +120,7 @@ class _NotificationItemState extends State<NotificationItem> {
                 isScrollControlled: true,
                 builder: (BuildContext context) {
                   return AddReminderModal(
-                    widget.notification.time,
+                    widget.notification.createTime,
                     widget.updateFunction,
                   );
                 },
@@ -132,11 +133,11 @@ class _NotificationItemState extends State<NotificationItem> {
                 isScrollControlled: true,
                 builder: (BuildContext context) {
                   return AddReminderModal.createWith(
-                    DateTime.now(),
+                    Timestamp.now(),
                     widget.updateFunction,
                     ReminderEvent(
-                      DateTime.now(),
-                      'Appointment with ${widget.notification.user.fullName}',
+                      Timestamp.now(),
+                      'Appointment with ${widget.notification.sender.fullName}',
                       0,
                       0,
                     ),

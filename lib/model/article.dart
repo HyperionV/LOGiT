@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 class Article {
   final String title;
   final String description;
@@ -16,7 +19,38 @@ class Article {
   );
 }
 
-List<Article> bookmarkedArticles = [
+Future<List<Article>> fetchArticlesData() async {
+  final DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .get();
+
+  if (userSnapshot.exists) {
+    final QuerySnapshot<Map<String, dynamic>> articlesSnapshot =
+        await userSnapshot.reference.collection('articles').get();
+
+    final List<Article> articles = [];
+
+    for (final articleDoc in articlesSnapshot.docs) {
+      final data = articleDoc.data();
+      final article = Article(
+        data['title'],
+        data['description'],
+        data['url'],
+        data['imageUrl'],
+        data['tag'],
+        data['publishedAt'],
+      );
+      articles.add(article);
+    }
+
+    return articles;
+  } else {
+    throw Exception('User data not found');
+  }
+}
+
+List<Article> discovery = [
   Article(
     'Rồng Bình Dương đón tết siêu đẹp trai',
     'Drinking water is essential for your health. It helps you stay hydrated, which is important for your body to function properly.',
@@ -50,5 +84,3 @@ List<Article> bookmarkedArticles = [
     '2021-10-01',
   ),
 ];
-
-List<Article> discovery = [];

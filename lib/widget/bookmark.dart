@@ -53,6 +53,9 @@ class BookmarkCard extends StatelessWidget {
                     ),
                     child: Image.network(
                       article.imageUrl,
+                      fit: BoxFit.cover,
+                      height: 100,
+                      width: double.infinity,
                     ),
                   ),
                 ),
@@ -60,10 +63,13 @@ class BookmarkCard extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Text(
                     article.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w400,
-                        letterSpacing: 0),
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 0,
+                    ),
                   ),
                 ),
                 const Spacer(),

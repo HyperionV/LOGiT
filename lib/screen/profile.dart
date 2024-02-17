@@ -94,8 +94,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 InkWell(
                     onTap: () {
                       FirebaseAuth.instance.signOut();
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => App()));
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => App(),
+                        ),
+                      );
                     },
                     child: InfoBox('Logout', Icon(Icons.logout), false)),
                 const SizedBox(height: 32),

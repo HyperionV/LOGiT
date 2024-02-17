@@ -1,5 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_const_constructors, must_be_immutable
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:logit/screen/blog.dart';
@@ -52,7 +53,8 @@ class _MainScreenState extends State<MainScreen> {
                   HealthDiary(),
                   NotificationScreen(),
                   if (widget.selectedDate != null)
-                    ReminderScreen.openAt(widget.selectedDate!)
+                    ReminderScreen.openAt(
+                        Timestamp.fromDate(widget.selectedDate!))
                   else
                     ReminderScreen(),
                 ],

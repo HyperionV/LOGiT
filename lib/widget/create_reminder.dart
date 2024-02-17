@@ -1,10 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, library_private_types_in_public_api
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:logit/model/event.dart';
 
 class AddReminderModal extends StatefulWidget {
-  final DateTime date;
+  final Timestamp date;
   final VoidCallback onLongPress;
   final ReminderEvent reminder;
 
@@ -34,7 +35,7 @@ class _AddReminderModalState extends State<AddReminderModal> {
     _hourEnd = TimeOfDay(
         hour: widget.reminder.hourEnd.floor(),
         minute: ((widget.reminder.hourEnd % 1) * 60).floor());
-    _endDate = widget.reminder.endDate;
+    _endDate = widget.reminder.endDate.toDate();
   }
 
   @override
@@ -199,12 +200,13 @@ class _AddReminderModalState extends State<AddReminderModal> {
                   }
                   events[formatddMMyy(_endDate)]!.add(
                     ReminderEvent(
-                      _endDate,
+                      Timestamp.fromDate(_endDate),
                       _titleController.text,
                       _hourStart.hour + _hourStart.minute / 60.0,
                       _hourEnd.hour + _hourEnd.minute / 60.0,
                     ),
                   );
+                  updateSchedule();
                   widget.onLongPress();
                   Navigator.pop(context);
                 },

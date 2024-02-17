@@ -35,7 +35,7 @@ class _TreatmentCardState extends State<TreatmentCard> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => SymptomReport(widget.treatment.doctorUid),
+              builder: (context) => SymptomReport(widget.treatment.doctor.fullName),
             ),
           );
         },
@@ -73,7 +73,7 @@ class _TreatmentCardState extends State<TreatmentCard> {
                     ),
                     // const SizedBox(height: 5),
                     Text(
-                      widget.treatment.doctorName,
+                      widget.treatment.doctor.fullName,
                       style: const TextStyle(
                         fontSize: 14,
                         color: Colors.grey,
