@@ -1,22 +1,69 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logit/model/user.dart';
 
 class MessageData {
   final UserData sender;
   final String body;
-  final DateTime date;
+  final Timestamp createAt;
 
-  MessageData(this.sender, this.body, this.date);
+  MessageData(this.sender, this.body, this.createAt);
+
+  Map<String, dynamic> toMap() {
+    return {
+      'sender': sender,
+      'body': body,
+      'createAt': createAt,
+    };
+  }
 }
 
-List<MessageData> messages = [
-  // MessageData(
-  //   users[0],
-  //   'Hello, how are you?',
-  //   DateTime.now(),
-  // ),
-  // MessageData(
-  //   users[0],
-  //   'Hi! Please let me know if you need any help',
-  //   DateTime.now(),
-  // ),
-];
+Future<String> fetchConversationId(String patientUid, String doctorUid) async {
+  DocumentSnapshot connectionDoc = await FirebaseFirestore.instance
+      .collection('users')
+      .doc(patientUid)
+      .collection('connections')
+      .doc(doctorUid)
+      .get();
+
+  if (connectionDoc.exists && connectionDoc.data() != null) {
+    return (connectionDoc.data() as Map<String, dynamic>)['conversations'];
+  } else {
+    throw Exception('No conversation exists between these users.');
+  }
+}
+
+Future<List<MessageData>> fetchMessages(
+    String patientUid, String doctorUid) async {
+  String conversationId = await fetchConversationId(patientUid, doctorUid);
+  QuerySnapshot messagesSnapshot = await FirebaseFirestore.instance
+      .collection('conversations')
+      .doc(conversationId)
+      .collection('messages')
+      .orderBy('createAt', descending: true)
+      .get();
+
+  List<Future<MessageData>> messages = messagesSnapshot.docs.map((doc) async {
+    Map<String, dynamic> messageData = doc.data() as Map<String, dynamic>;
+    UserData sender = await fetchWithUID(doctorUid);
+    return MessageData(
+      sender,
+      messageData['body'],
+      messageData['createAt'],
+    );
+  }).toList();
+
+  return await Future.wait(messages);
+}
+
+Future<void> sendNewMessage(
+    String patientUid, String doctorUid, MessageData message) async {
+  CollectionReference messagesCollection = FirebaseFirestore.instance
+      .collection('conversations')
+      .doc(await fetchConversationId(patientUid, doctorUid))
+      .collection('messages');
+
+  await messagesCollection.add({
+    'body': message.body,
+    'createAt': message.createAt,
+  });
+}

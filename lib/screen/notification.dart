@@ -1,11 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:logit/model/user.dart';
 import 'package:logit/widget/header.dart';
-import 'package:logit/widget/notification.dart';
-import 'package:logit/model/notifications.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});

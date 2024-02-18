@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class ReportData {
   final String content;
@@ -29,8 +28,10 @@ Future<void> updateReport(String medicalRecordUid, ReportData report) async {
       .collection('medical_records')
       .doc(medicalRecordUid)
       .collection('Reports');
-  await reportCollection.add({
-    'content': report.content,
-    'time': report.time,
-  });
+  await reportCollection.add(
+    {
+      'content': report.content,
+      'time': report.time,
+    },
+  );
 }

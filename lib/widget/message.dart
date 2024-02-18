@@ -12,7 +12,7 @@ class MessageItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formattedDateTime =
-        DateFormat('hh:mm a, dd/MM/yyyy').format(message.date);
+        DateFormat('hh:mm a, dd/MM/yyyy').format(message.createAt.toDate());
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
