@@ -28,8 +28,8 @@ class DateButton extends StatelessWidget {
             : Color.fromARGB(255, 240, 240, 240),
       ),
       child: SizedBox(
-        width: 23,
-        height: 90,
+        width: 30,
+        height: 100,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

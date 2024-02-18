@@ -106,30 +106,30 @@ class _ReminderScreenState extends State<ReminderScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Padding(
                 padding: EdgeInsets.only(left: 24.0, right: 24),
                 child: Text(
                   'Reminder',
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 28,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               IconButton(
                 icon: Icon(
                   Icons.edit_calendar_rounded,
-                  size: 35,
+                  size: 30,
                 ),
                 onPressed: addNewReminder,
               ),
               IconButton(
                 icon: const Icon(
                   Icons.medical_information_rounded,
-                  size: 35,
+                  size: 30,
                 ),
                 onPressed: () {
                   Navigator.push(

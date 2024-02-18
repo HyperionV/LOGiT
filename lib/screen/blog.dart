@@ -52,7 +52,7 @@ class _HealthBlogState extends State<HealthBlog> {
             child: Text(
               'Bookmarked',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -93,7 +93,7 @@ class _HealthBlogState extends State<HealthBlog> {
             child: Text(
               'Discovery',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
