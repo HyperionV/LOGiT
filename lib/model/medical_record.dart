@@ -34,20 +34,7 @@ Future<MedicalRecordData> fetchMedicalRecordData(String medicalRecordId) async {
     Map<String, dynamic> medicalRecordData =
         medicalRecordSnapshot.data() as Map<String, dynamic>;
 
-    QuerySnapshot diagnosisSnapshot = await FirebaseFirestore.instance
-        .collection('medical_records')
-        .doc(medicalRecordId)
-        .collection('Diagnosis')
-        .get();
-
-    List<DiagnosisData> diagnosisList = diagnosisSnapshot.docs.map((doc) {
-      Map<String, dynamic> diagnosisData = doc.data() as Map<String, dynamic>;
-      return DiagnosisData(
-        diagnosisData['diagnosis'],
-        diagnosisData['content'],
-        diagnosisData['time'],
-      );
-    }).toList();
+    List<DiagnosisData> diagnosisList = await fetchDiagnosis(medicalRecordId);
 
     List<ReportData> reportList = await fetchReports(medicalRecordId);
 

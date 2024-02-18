@@ -7,6 +7,7 @@ import 'package:logit/screen/medical_record.dart';
 import 'package:logit/model/medical_record.dart';
 import 'package:logit/screen/message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:logit/screen/report_symptom_screen.dart';
 
 class _CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {
   final double offsetX;
@@ -345,7 +346,14 @@ class _SymptomReportState extends State<SymptomReport> {
               ],
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ReportSymptomScreen(),
+                  ),
+                );
+              },
               backgroundColor: Color.fromARGB(255, 70, 188, 149),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(50),

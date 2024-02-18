@@ -56,8 +56,8 @@ class _TreatmentCardState extends State<TreatmentCard> {
                   width: 125,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: Image.asset(
-                      'assets/img/doctor.png',
+                    child: Image.network(
+                      widget.treatment.doctor.imageUrl,
                       fit: BoxFit.cover,
                     ),
                   ),
