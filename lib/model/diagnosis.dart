@@ -1,18 +1,42 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class DiagnosisData {
   String diagnosis;
   String content;
-  final DateTime time;
+  final Timestamp time;
 
   DiagnosisData(this.diagnosis, this.content, this.time);
+
+  Map<String, dynamic> toMap() {
+    return {
+      'diagnosis': diagnosis,
+      'content': content,
+      'time': time,
+    };
+  }
 }
 
-List<DiagnosisData> diagnosisList = [
-  DiagnosisData('Diagnosis 1', 'Content 1', DateTime.now()),
-  DiagnosisData('Diagnosis 2', 'Content 2', DateTime.now()),
-  DiagnosisData('Diagnosis 3', 'Content 3', DateTime.now()),
-  DiagnosisData('Diagnosis 4', 'Content 4', DateTime.now()),
-  DiagnosisData('Diagnosis 5', 'Content 5', DateTime.now()),
-  DiagnosisData('Diagnosis 6', 'Content 6', DateTime.now()),
-  DiagnosisData('Diagnosis 7', 'Content 7', DateTime.now()),
-  DiagnosisData('Diagnosis 8', 'Content 8', DateTime.now()),
-];
+Future<List<DiagnosisData>> fetchDiagnosis(String medicalRecordUid) async {
+  QuerySnapshot diagnosisSnapshot = await FirebaseFirestore.instance
+      .collection('medical_records')
+      .doc(medicalRecordUid)
+      .collection('Diagnosis')
+      .get();
+
+  return diagnosisSnapshot.docs.map((doc) {
+    Map<String, dynamic> reportData = doc.data() as Map<String, dynamic>;
+    return DiagnosisData(
+      reportData['diagnosis'],
+      reportData['content'],
+      reportData['time'],
+    );
+  }).toList();
+}
+
+Future<void> updateDiagnosis(String medicalRecordUid, DiagnosisData diagnosis) async {
+  CollectionReference diagnosisCollection = FirebaseFirestore.instance
+      .collection('medical_records')
+      .doc(medicalRecordUid)
+      .collection('Diagnosis');
+  await diagnosisCollection.add(diagnosis.toMap());
+}

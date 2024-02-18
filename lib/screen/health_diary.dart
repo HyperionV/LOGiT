@@ -15,6 +15,7 @@ class HealthDiary extends StatefulWidget {
 class _HealthDiaryState extends State<HealthDiary> {
   bool isCurrent = true;
   List<TreatmentData> displaying = treatments;
+
   @override
   Widget build(BuildContext context) {
     final Color containerColor = Color.fromARGB(255, 106, 204, 171);

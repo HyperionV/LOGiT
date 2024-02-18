@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:logit/model/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logit/main.dart';
+import 'package:logit/model/event.dart';
 
 class InfoBox extends StatelessWidget {
   const InfoBox(
@@ -100,6 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           builder: (context) => App(),
                         ),
                       );
+                      events.clear();
                     },
                     child: InfoBox('Logout', Icon(Icons.logout), false)),
                 const SizedBox(height: 32),

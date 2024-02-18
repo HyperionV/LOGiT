@@ -16,11 +16,12 @@ class TreatmentCard extends StatefulWidget {
 
 class _TreatmentCardState extends State<TreatmentCard> {
   String get _date {
-    final DateTime date = widget.treatment.startDate;
-    final String end = (widget.treatment.endDate.year != DateTime.now().year &&
-            widget.treatment.endDate.month != DateTime.now().month &&
-            widget.treatment.endDate.day != DateTime.now().day)
-        ? ' - ${widget.treatment.endDate.day}/${widget.treatment.endDate.month}/${widget.treatment.endDate.year}'
+    final DateTime date = widget.treatment.startDate.toDate();
+    final String end = (widget.treatment.endDate.toDate().year !=
+                DateTime.now().year &&
+            widget.treatment.endDate.toDate().month != DateTime.now().month &&
+            widget.treatment.endDate.toDate().day != DateTime.now().day)
+        ? ' - ${widget.treatment.endDate.toDate().day}/${widget.treatment.endDate.toDate().month}/${widget.treatment.endDate.toDate().year}'
         : 'Ongoing';
     return '${date.day}/${date.month}/${date.year} - $end';
   }
@@ -35,7 +36,8 @@ class _TreatmentCardState extends State<TreatmentCard> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => SymptomReport(widget.treatment.doctor.fullName),
+              builder: (context) => SymptomReport(
+                  widget.treatment.doctor.uid, widget.treatment.medicalRecord),
             ),
           );
         },
@@ -80,7 +82,7 @@ class _TreatmentCardState extends State<TreatmentCard> {
                       ),
                     ),
                     Text(
-                      widget.treatment.address,
+                      widget.treatment.doctor.address,
                       style: const TextStyle(
                         fontSize: 12,
                         color: Colors.grey,

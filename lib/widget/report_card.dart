@@ -58,7 +58,7 @@ class _ReportCardState extends State<ReportCard> {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      formatMMddYY(formatddMMyy(widget.report.time)),
+                      formatMMddYY(formatddMMyy(widget.report.time.toDate())),
                       style: const TextStyle(
                           fontSize: 18,
                           color: Colors.black,

@@ -82,6 +82,8 @@ Future<void> fetchEvents() async {
     final scheduleCollection = userDoc.reference.collection('schedule');
     final scheduleSnapshot = await scheduleCollection.get();
 
+    events.clear();
+
     for (final doc in scheduleSnapshot.docs) {
       final data = doc.data();
       final endDate = data['endDate'] as Timestamp;

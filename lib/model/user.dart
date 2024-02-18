@@ -20,6 +20,16 @@ class UserData {
     this.address,
     this.emergencyContact,
   );
+
+  UserData.fromMap(Map<String, dynamic> data)
+      : uid = data['uid'],
+        imageUrl = data['imageUrl'],
+        fullName = data['fullName'],
+        dob = data['dob'],
+        phoneNumber = data['phoneNumber'],
+        email = data['email'],
+        address = data['address'],
+        emergencyContact = data['emergencyContact'];
 }
 
 Future<UserData> fetchWithUID(String uid) async {

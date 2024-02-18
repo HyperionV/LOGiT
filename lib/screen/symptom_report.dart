@@ -45,7 +45,8 @@ class _CustomFloatingActionButtonAnimator extends FloatingActionButtonAnimator {
 
 class SymptomReport extends StatefulWidget {
   final String doctorID;
-  const SymptomReport(this.doctorID, {super.key});
+  final MedicalRecordData medicalRecord;
+  const SymptomReport(this.doctorID, this.medicalRecord, {super.key});
 
   @override
   _SymptomReportState createState() => _SymptomReportState();
@@ -102,7 +103,8 @@ class _SymptomReportState extends State<SymptomReport> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => MedicalRecord(medicalRecords[0]),
+                        builder: (context) =>
+                            MedicalRecord(widget.medicalRecord),
                       ),
                     );
                   },
@@ -324,12 +326,13 @@ class _SymptomReportState extends State<SymptomReport> {
                         const SizedBox(height: 20),
                         Expanded(
                           child: ListView.builder(
-                            itemCount: 5,
+                            itemCount: widget.medicalRecord.reports.length,
                             itemBuilder: (ctx, index) {
                               return Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 18, vertical: 8),
-                                child: ReportCard(reports[index]),
+                                child: ReportCard(
+                                    widget.medicalRecord.reports[index]),
                               );
                             },
                           ),

@@ -1,27 +1,36 @@
-class ReportData {
-  final String sender;
-  final String receiver;
-  final String content;
-  final DateTime time;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-  ReportData(this.sender, this.receiver, this.content, this.time);
+class ReportData {
+  final String content;
+  final Timestamp time;
+
+  ReportData(this.content, this.time);
 }
 
-List<ReportData> reports = [
-  ReportData('Dr. A', 'Patient 1', 'Patient 1 has a high blood pressure',
-      DateTime.now()),
-  ReportData(
-      'Dr. B', 'Patient 2', 'Patient 2 has a high blood sugar', DateTime.now()),
-  ReportData(
-      'Dr. C', 'Patient 3', 'Patient 3 has a high cholesterol', DateTime.now()),
-  ReportData('Dr. D', 'Patient 4', 'Patient 4 has a high blood pressure',
-      DateTime.now()),
-  ReportData(
-      'Dr. E', 'Patient 5', 'Patient 5 has a high blood sugar', DateTime.now()),
-  ReportData(
-      'Dr. F', 'Patient 6', 'Patient 6 has a high cholesterol', DateTime.now()),
-  ReportData('Dr. G', 'Patient 7', 'Patient 7 has a high blood pressure',
-      DateTime.now()),
-  ReportData(
-      'Dr. H', 'Patient 8', 'Patient 8 has a high blood sugar', DateTime.now()),
-];
+Future<List<ReportData>> fetchReports(String medicalRecordUid) async {
+  QuerySnapshot reportSnapshot = await FirebaseFirestore.instance
+      .collection('medical_records')
+      .doc(medicalRecordUid)
+      .collection('Reports')
+      .get();
+
+  return reportSnapshot.docs.map((doc) {
+    Map<String, dynamic> reportData = doc.data() as Map<String, dynamic>;
+    return ReportData(
+      reportData['content'],
+      reportData['time'],
+    );
+  }).toList();
+}
+
+Future<void> updateReport(String medicalRecordUid, ReportData report) async {
+  CollectionReference reportCollection = FirebaseFirestore.instance
+      .collection('medical_records')
+      .doc(medicalRecordUid)
+      .collection('Reports');
+  await reportCollection.add({
+    'content': report.content,
+    'time': report.time,
+  });
+}

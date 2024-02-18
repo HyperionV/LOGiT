@@ -7,14 +7,13 @@ import 'package:logit/screen/home.dart';
 import 'miscellaneous/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logit/model/event.dart';
+import 'package:logit/model/treatments.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  fetchEvents();
-  print(events);
   runApp(const App());
 }
 
@@ -28,6 +27,9 @@ class App extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (ctx, snapshot) {
           if (snapshot.hasData) {
+            fetchEvents();
+            fetchTreatmentData();
+
             return MainScreen();
           }
           return AuthScreen();
