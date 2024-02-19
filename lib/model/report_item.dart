@@ -14,6 +14,10 @@ Future<List<ReportData>> fetchReports(String medicalRecordUid) async {
       .collection('Reports')
       .get();
 
+  if (reportSnapshot.docs.isEmpty) {
+    return [];
+  }
+
   return reportSnapshot.docs.map((doc) {
     Map<String, dynamic> reportData = doc.data() as Map<String, dynamic>;
     return ReportData(

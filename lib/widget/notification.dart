@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:logit/model/notifications.dart';
 import 'package:logit/model/event.dart';
 import 'package:logit/widget/create_reminder.dart';
-import 'package:logit/screen/home.dart';
+import 'package:logit/patient/home.dart';
 
 class DisplayMessage extends StatelessWidget {
   final String string;

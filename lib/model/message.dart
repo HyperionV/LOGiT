@@ -39,7 +39,7 @@ Future<List<MessageData>> fetchMessages(
       .collection('conversations')
       .doc(conversationId)
       .collection('messages')
-      .orderBy('createAt', descending: true)
+      .orderBy('createAt', descending: false)
       .get();
 
   List<Future<MessageData>> messages = messagesSnapshot.docs.map((doc) async {

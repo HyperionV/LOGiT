@@ -3,11 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:logit/model/medical_record.dart';
 import 'package:logit/widget/diagnosis_card.dart';
+import 'package:logit/doctor/widget/new_diagnosis.dart';
+import 'package:logit/model/treatments.dart';
 
 class MedicalRecord extends StatefulWidget {
-  final MedicalRecordData medicalRecord;
+  MedicalRecordData medicalRecord;
 
-  const MedicalRecord(this.medicalRecord, {super.key});
+  MedicalRecord(this.medicalRecord, {super.key});
 
   @override
   _MedicalRecordState createState() => _MedicalRecordState();
@@ -15,6 +17,12 @@ class MedicalRecord extends StatefulWidget {
 
 class _MedicalRecordState extends State<MedicalRecord> {
   final Color iconColor = Color.fromARGB(255, 15, 145, 133);
+
+  void reload() async {
+    widget.medicalRecord =
+        await fetchMedicalRecordData(widget.medicalRecord.uid);
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +41,23 @@ class _MedicalRecordState extends State<MedicalRecord> {
             Navigator.pop(context);
           },
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: IconButton(
+              icon: Icon(Icons.add, size: 30, color: iconColor),
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (context) {
+                    return CreateDiagnosis(widget.medicalRecord.uid, reload);
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -166,19 +191,28 @@ class _MedicalRecordState extends State<MedicalRecord> {
               ),
             ),
             const SizedBox(height: 10),
-            Expanded(
-              child: ListView.builder(
-                itemCount: widget.medicalRecord.diagnosisList.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: DiagnosisCard(
-                      widget.medicalRecord.diagnosisList[index],
+            widget.medicalRecord.diagnosisList.isEmpty
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'No diagnosis history',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                     ),
-                  );
-                },
-              ),
-            ),
+                  )
+                : Expanded(
+                    child: ListView.builder(
+                      itemCount: widget.medicalRecord.diagnosisList.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: DiagnosisCard(
+                            widget.medicalRecord.diagnosisList[index],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
           ],
         ),
       ),

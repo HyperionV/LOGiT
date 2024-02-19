@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:logit/model/user.dart';
 import 'package:logit/widget/report_card.dart';
-import 'package:logit/screen/medical_record.dart';
+import 'package:logit/patient/medical_record.dart';
 import 'package:logit/model/medical_record.dart';
-import 'package:logit/screen/message.dart';
+import 'package:logit/patient/message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class _CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {

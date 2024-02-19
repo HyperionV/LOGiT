@@ -23,6 +23,10 @@ Future<List<DiagnosisData>> fetchDiagnosis(String medicalRecordUid) async {
       .collection('Diagnosis')
       .get();
 
+  if (diagnosisSnapshot.docs.isEmpty) {
+    return []; // Return an empty list if the collection doesn't exist
+  }
+
   return diagnosisSnapshot.docs.map((doc) {
     Map<String, dynamic> reportData = doc.data() as Map<String, dynamic>;
     return DiagnosisData(
@@ -33,7 +37,8 @@ Future<List<DiagnosisData>> fetchDiagnosis(String medicalRecordUid) async {
   }).toList();
 }
 
-Future<void> updateDiagnosis(String medicalRecordUid, DiagnosisData diagnosis) async {
+Future<void> updateDiagnosis(
+    String medicalRecordUid, DiagnosisData diagnosis) async {
   CollectionReference diagnosisCollection = FirebaseFirestore.instance
       .collection('medical_records')
       .doc(medicalRecordUid)
