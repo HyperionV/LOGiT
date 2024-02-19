@@ -23,7 +23,6 @@ class BodyPartSelector extends StatelessWidget {
   final BodySide side;
   final BodyParts bodyParts;
   final void Function(BodyParts bodyParts)? onSelectionUpdated;
-
   final bool mirrored;
 
   final Color? selectedColor;
@@ -61,9 +60,12 @@ class BodyPartSelector extends StatelessWidget {
             painter: _BodyPainter(
               root: drawable,
               bodyParts: bodyParts,
-              onTap: (s) => onSelectionUpdated?.call(
-                bodyParts.withToggledId(s, mirror: mirrored),
-              ),
+              onTap: (s) {
+                print(s);
+                onSelectionUpdated?.call(
+                bodyParts.withToggledId(s, mirror: mirrored)
+              );
+              },
               context: context,
               selectedColor: selectedColor ?? colorScheme.inversePrimary,
               unselectedColor: unselectedColor ?? colorScheme.inverseSurface,

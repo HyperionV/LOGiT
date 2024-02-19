@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:logit/body_part_selector.dart';
 import 'package:flutter/material.dart';
 
@@ -28,12 +29,48 @@ class ReportSymptomScreen extends StatefulWidget {
 
 class _ReportSymptomScreen extends State<ReportSymptomScreen> {
   BodyParts _bodyParts = const BodyParts();
+  late TextEditingController controller;
+
+  // final Map<String, String> _symptoms = {};
+
+  // Future openAddDialog() => showDialog(
+  //   context: context,
+  //   builder: (context) => AlertDialog(
+  //     title: Text('Detail description'),
+  //     content: TextField(
+  //       decoration: const InputDecoration(
+  //         hintText: 'Enter symptom description',
+  //       ),
+  //       controller: controller,
+  //     ),
+  //     actions: [
+  //       Column(
+  //         mainAxisSize: MainAxisSize.min,
+  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //         children: [
+  //           ElevatedButton(
+  //             onPressed: () => Navigator.of(context).pop(),
+  //             child: const Text('Cancel'),
+  //           ),
+  //           ElevatedButton(
+  //             onPressed: add,
+  //             child: const Text('Add'),
+  //           ),
+  //         ],
+  //       ),
+  //     ],
+  //   ),
+  // );
+
+  // void add() {
+  //   Navigator.of(context).pop();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Symtom Report'),
+        title: Text('New Symptom'),
       ),
       body: SafeArea(
         child: BodyPartSelectorTurnable(

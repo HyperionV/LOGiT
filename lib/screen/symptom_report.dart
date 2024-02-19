@@ -7,7 +7,7 @@ import 'package:logit/screen/medical_record.dart';
 import 'package:logit/model/medical_record.dart';
 import 'package:logit/screen/message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:logit/screen/report_symptom_screen.dart';
+import 'package:logit/screen/new_symptom.dart';
 
 class _CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {
   final double offsetX;
