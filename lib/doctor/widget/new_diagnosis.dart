@@ -68,7 +68,6 @@ class _CreateDiagnosisState extends State<CreateDiagnosis> {
   }
 
   Future<void> onSave() async {
-    print(widget.medicalRecordID);
     await FirebaseFirestore.instance
         .collection('medical_records')
         .doc(widget.medicalRecordID)

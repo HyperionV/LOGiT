@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, library_private_types_in_public_api
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, library_private_types_in_public_api, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:logit/model/report_item.dart';
@@ -8,7 +8,6 @@ import 'package:logit/patient/medical_record.dart';
 import 'package:logit/model/medical_record.dart';
 import 'package:logit/patient/message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:logit/screen/new_symptom.dart';
 import 'package:logit/patient/create_report.dart';
 
 class _CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {

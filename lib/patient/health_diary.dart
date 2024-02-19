@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logit/widget/treatment_list.dart';
 import 'package:logit/model/treatments.dart';
+import 'package:logit/widget/qr_dialog.dart';
 
 class HealthDiary extends StatefulWidget {
   const HealthDiary({super.key});
@@ -79,24 +80,32 @@ class _HealthDiaryState extends State<HealthDiary> {
                                 size: 32,
                                 color: Color.fromARGB(255, 244, 244, 244),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return QRCodeDialog();
+                                  },
+                                );
+                              },
                             ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 8),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Good afternoon, have a great day!',
-                              ),
-                              const SizedBox(height: 8),
-                            ],
-                          ),
-                          const Spacer(),
+                          // Column(
+                          //   crossAxisAlignment: CrossAxisAlignment.start,
+                          //   children: [
+                          //     Text(
+                          //       'Good afternoon, have a great day!',
+                          //     ),
+                          //     const SizedBox(height: 8),
+                          //   ],
+                          // ),
+                          // const Spacer(),
                           Image.asset('assets/img/image12.png'),
                         ],
                       ),

@@ -109,7 +109,7 @@ class _HealthDiaryState extends State<HealthDiary> {
                               child: Text(
                                 'Good afternoon, have a great working day!',
                                 style: TextStyle(
-                                  color: Color.fromARGB(255, 255, 255, 255),
+                                  color: Color.fromARGB(255, 75, 75, 75),
                                   fontSize: 16,
                                 ),
                               ),

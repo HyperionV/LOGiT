@@ -172,6 +172,12 @@ class _QRCodeDialogState extends State<QRCodeDialog> {
                             ),
                             TextButton(
                               onPressed: () {
+                                FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                                    .collection('pending')
+                                    .doc(receivedData)
+                                    .set({'accepted': true});
                                 showModalBottomSheet(
                                   context: context,
                                   isScrollControlled: true,
