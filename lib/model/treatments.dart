@@ -30,7 +30,6 @@ Future<void> fetchTreatmentData() async {
   final user = FirebaseAuth.instance.currentUser;
   if (user != null) {
     treatments.clear();
-
     final userId = user.uid;
     final userDoc = FirebaseFirestore.instance.collection('users').doc(userId);
 

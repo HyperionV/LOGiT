@@ -191,13 +191,17 @@ class _CreateReportState extends State<CreateReport> {
           ),
           const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: () {
-              Navigator.push(
+            onPressed: () async {
+              await Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => ReportSymptomScreen(count),
                 ),
               );
+
+              setState(() {
+                _contentController.text += partCounter.keys.join('\n');
+              });
             },
             child: Text('Full body view'),
           ),
