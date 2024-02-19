@@ -1,12 +1,15 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:logit/model/report_item.dart';
 import 'package:logit/model/user.dart';
 import 'package:logit/widget/report_card.dart';
 import 'package:logit/patient/medical_record.dart';
 import 'package:logit/model/medical_record.dart';
 import 'package:logit/patient/message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:logit/screen/new_symptom.dart';
+import 'package:logit/patient/create_report.dart';
 
 class _CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {
   final double offsetX;
@@ -45,8 +48,8 @@ class _CustomFloatingActionButtonAnimator extends FloatingActionButtonAnimator {
 
 class SymptomReport extends StatefulWidget {
   final String doctorID;
-  final MedicalRecordData medicalRecord;
-  const SymptomReport(this.doctorID, this.medicalRecord, {super.key});
+  MedicalRecordData medicalRecord;
+  SymptomReport(this.doctorID, this.medicalRecord, {super.key});
 
   @override
   _SymptomReportState createState() => _SymptomReportState();
@@ -55,6 +58,11 @@ class SymptomReport extends StatefulWidget {
 class _SymptomReportState extends State<SymptomReport> {
   final Color iconColor = Color.fromARGB(255, 15, 145, 133);
   String selectedFilter = 'All';
+
+  void reload() async {
+    widget.medicalRecord.reports = await fetchReports(widget.medicalRecord.uid);
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +96,9 @@ class _SymptomReportState extends State<SymptomReport> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => MessageScreen(FirebaseAuth.instance.currentUser!.uid, widget.doctorID),
+                        builder: (context) => MessageScreen(
+                            FirebaseAuth.instance.currentUser!.uid,
+                            widget.doctorID),
                       ),
                     );
                   },
@@ -345,7 +355,15 @@ class _SymptomReportState extends State<SymptomReport> {
               ],
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (context) {
+                    return CreateReport(widget.medicalRecord.uid, reload);
+                  },
+                );
+              },
               backgroundColor: Color.fromARGB(255, 70, 188, 149),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(50),

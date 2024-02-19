@@ -16,6 +16,17 @@ class _HealthDiaryState extends State<HealthDiary> {
   bool isCurrent = true;
   List<TreatmentData> displaying = treatments;
 
+  Future<void> initTreatments() async {
+    treatments.clear();
+    await fetchTreatmentData();
+  }
+
+  @override
+  void initState() {
+    initTreatments();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Color containerColor = Color.fromARGB(255, 106, 204, 171);
@@ -32,183 +43,169 @@ class _HealthDiaryState extends State<HealthDiary> {
         statusBarColor: containerColor,
         statusBarIconBrightness: Brightness.dark,
       ),
-      child: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: containerColor,
-            ),
-            padding: const EdgeInsets.only(left: 24, top: 16, bottom: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      child: FutureBuilder(
+          future: initTreatments(),
+          builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            }
+            return Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Health Diary',
-                      style: const TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 24),
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.qr_code_scanner_rounded,
-                          size: 32,
-                          color: Color.fromARGB(255, 244, 244, 244),
-                        ),
-                        onPressed: () {},
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Good afternoon, have a great day!',
-                        ),
-                        const SizedBox(height: 8),
-                        // TextButton(
-                        //   onPressed: () {},
-                        //   style: TextButton.styleFrom(
-                        //     foregroundColor: Colors.black,
-                        //     backgroundColor:
-                        //         Color.fromARGB(255, 245, 245, 245),
-                        //     disabledForegroundColor:
-                        //         Colors.grey.withOpacity(0.38),
-                        //   ),
-                        //   child: Padding(
-                        //     padding: const EdgeInsets.symmetric(
-                        //       horizontal: 16.0,
-                        //       vertical: 4,
-                        //     ),
-                        //     child: Text(
-                        //       'SYMPTOMS REPORT',
-                        //       style: TextStyle(
-                        //         fontWeight: FontWeight.bold,
-                        //         fontSize: 16,
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                    const Spacer(),
-                    Image.asset('assets/img/image12.png'),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 50,
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  child: InkWell(
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 300),
-                      child: Container(
-                        key: ValueKey<bool>(isCurrent),
-                        decoration: BoxDecoration(
-                          color: isCurrent
-                              ? const Color.fromARGB(255, 240, 240, 240)
-                              : Colors.transparent,
-                        ),
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 13),
-                            Text(
-                              'Current Logs',
-                              style: TextStyle(
-                                  color: textColor1,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500),
+                Container(
+                  decoration: BoxDecoration(
+                    color: containerColor,
+                  ),
+                  padding: const EdgeInsets.only(left: 24, top: 16, bottom: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Health Diary',
+                            style: const TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
                             ),
-                            const Spacer(),
-                            if (isCurrent)
-                              Container(
-                                height: 3,
-                                width: 175,
-                                color: containerColor,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 24),
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.qr_code_scanner_rounded,
+                                size: 32,
+                                color: Color.fromARGB(255, 244, 244, 244),
                               ),
-                          ],
-                        ),
+                              onPressed: () {},
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    onTap: () {
-                      if (!isCurrent) {
-                        isCurrent = !isCurrent;
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Good afternoon, have a great day!',
+                              ),
+                              const SizedBox(height: 8),
+                            ],
+                          ),
+                          const Spacer(),
+                          Image.asset('assets/img/image12.png'),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 50,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: InkWell(
+                          child: AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 300),
+                            child: Container(
+                              key: ValueKey<bool>(isCurrent),
+                              decoration: BoxDecoration(
+                                color: isCurrent
+                                    ? const Color.fromARGB(255, 240, 240, 240)
+                                    : Colors.transparent,
+                              ),
+                              child: Column(
+                                children: [
+                                  const SizedBox(height: 13),
+                                  Text(
+                                    'Current Logs',
+                                    style: TextStyle(
+                                        color: textColor1,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  const Spacer(),
+                                  if (isCurrent)
+                                    Container(
+                                      height: 3,
+                                      width: 175,
+                                      color: containerColor,
+                                    ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          onTap: () {
+                            if (!isCurrent) {
+                              isCurrent = !isCurrent;
 
-                        setState(() {
-                          displaying = treatments;
-                        });
-                      }
-                    },
+                              setState(() {
+                                displaying = treatments;
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        child: InkWell(
+                          child: AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 300),
+                            child: Container(
+                              key: ValueKey<bool>(!isCurrent),
+                              decoration: BoxDecoration(
+                                color: !isCurrent
+                                    ? const Color.fromARGB(255, 240, 240, 240)
+                                    : Colors.transparent,
+                              ),
+                              child: Column(
+                                children: [
+                                  const SizedBox(height: 13),
+                                  Text(
+                                    'Past Treatments',
+                                    style: TextStyle(
+                                        color: textColor1,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  const Spacer(),
+                                  if (!isCurrent)
+                                    Container(
+                                      height: 3,
+                                      width: 175,
+                                      color: containerColor,
+                                    ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          onTap: () {
+                            if (isCurrent) {
+                              isCurrent = !isCurrent;
+                              setState(() {
+                                displaying = [];
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(
-                  child: InkWell(
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 300),
-                      child: Container(
-                        key: ValueKey<bool>(!isCurrent),
-                        decoration: BoxDecoration(
-                          color: !isCurrent
-                              ? const Color.fromARGB(255, 240, 240, 240)
-                              : Colors.transparent,
-                        ),
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 13),
-                            Text(
-                              'Past Treatments',
-                              style: TextStyle(
-                                  color: textColor1,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            const Spacer(),
-                            if (!isCurrent)
-                              Container(
-                                height: 3,
-                                width: 175,
-                                color: containerColor,
-                              ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    onTap: () {
-                      if (isCurrent) {
-                        isCurrent = !isCurrent;
-                        setState(() {
-                          displaying = [];
-                        });
-                      }
-                    },
-                  ),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 239, 239, 239)),
+                      child: TreatmentList(displaying)),
                 ),
               ],
-            ),
-          ),
-          Expanded(
-            child: Container(
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 239, 239, 239)),
-                child: TreatmentList(displaying)),
-          ),
-        ],
-      ),
+            );
+          }),
     );
   }
 }

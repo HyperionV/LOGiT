@@ -1,10 +1,9 @@
-// ignore_for_file: prefer_const_constructors, library_private_types_in_public_api, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, library_private_types_in_public_api, prefer_const_literals_to_create_immutables, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:logit/model/medical_record.dart';
 import 'package:logit/widget/diagnosis_card.dart';
 import 'package:logit/doctor/widget/new_diagnosis.dart';
-import 'package:logit/model/treatments.dart';
 
 class MedicalRecord extends StatefulWidget {
   MedicalRecordData medicalRecord;

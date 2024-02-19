@@ -51,6 +51,8 @@ Future<MedicalRecordData> fetchMedicalRecordData(String medicalRecordId) async {
         medicalRecordData['facility'],
         diagnosisList,
         reportList);
+    // diagnosisList,
+    // reportList);
   } else {
     throw Exception('Medical record not found');
   }

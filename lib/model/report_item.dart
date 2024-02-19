@@ -27,15 +27,3 @@ Future<List<ReportData>> fetchReports(String medicalRecordUid) async {
   }).toList();
 }
 
-Future<void> updateReport(String medicalRecordUid, ReportData report) async {
-  CollectionReference reportCollection = FirebaseFirestore.instance
-      .collection('medical_records')
-      .doc(medicalRecordUid)
-      .collection('Reports');
-  await reportCollection.add(
-    {
-      'content': report.content,
-      'time': report.time,
-    },
-  );
-}
