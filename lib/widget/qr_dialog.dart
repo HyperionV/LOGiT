@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class QRCodeDialog extends StatefulWidget {
-  const QRCodeDialog({Key? key}) : super(key: key);
+  const QRCodeDialog({super.key});
 
   @override
   _QRCodeDialogState createState() => _QRCodeDialogState();
@@ -47,7 +47,7 @@ class _QRCodeDialogState extends State<QRCodeDialog> {
           ? StreamBuilder<DocumentSnapshot>(
               stream: FirebaseFirestore.instance
                   .collection('users')
-                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                  .doc(_codeController.text)
                   .collection('pending')
                   .doc(FirebaseAuth.instance.currentUser!.uid)
                   .snapshots(),
@@ -125,7 +125,7 @@ class _QRCodeDialogState extends State<QRCodeDialog> {
         ),
         if (!isWaitingForConfirmation)
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               if (isScanning) {
                 controller?.pauseCamera();
                 setState(() {
@@ -134,16 +134,29 @@ class _QRCodeDialogState extends State<QRCodeDialog> {
               } else {
                 String uid = _codeController.text;
 
-                FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(uid)
-                    .collection('pending')
-                    .doc(FirebaseAuth.instance.currentUser!.uid)
-                    .set(
-                  {
-                    'accepted': false,
-                  },
-                );
+                // await FirebaseFirestore.instance
+                //     .collection('users')
+                //     .doc(uid)
+                //     .collection('pending')
+                //     .doc(FirebaseAuth.instance.currentUser!.uid)
+                //     .set(
+                //   {
+                //     'accepted': false,
+                //   },
+                // );
+
+                Future.wait([
+                  FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .collection('pending')
+                      .doc(uid)
+                      .set(
+                    {
+                      'accepted': false,
+                    },
+                  ),
+                ]);
 
                 setState(() {
                   isWaitingForConfirmation = true;
