@@ -56,7 +56,7 @@ class BodyPartSelector extends StatelessWidget {
 
   void getSymptomDescription(String bodyPart, BuildContext context) {
     final pickedBodyPart = bodyParts.toJson();
-    if(pickedBodyPart.containsKey(bodyPart) && pickedBodyPart[bodyPart] == true){
+    if(pickedBodyPart.containsKey(bodyPart) && pickedBodyPart[bodyPart] == false){
       showDialog(context: context, builder: (context) {
         final TextEditingController controller  = TextEditingController();
         return AlertDialog(
