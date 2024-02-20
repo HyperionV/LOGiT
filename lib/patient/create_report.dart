@@ -218,10 +218,10 @@ class _CreateReportState extends State<CreateReport> {
               );
 
               setState(() {
-                _contentController.clear();
                 for(String key in symptomNote.keys) {
-                    _contentController.text += '$key : $symptomNote[$key]' + '\n';
+                    _contentController.text += key + ' : ' + symptomNote[key]! + '\n';
                 }
+                symptomNote.clear();
               });
             },
             child: Text('Full body view'),
