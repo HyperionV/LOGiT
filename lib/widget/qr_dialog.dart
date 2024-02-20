@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
 
 class QRCodeDialog extends StatefulWidget {
   const QRCodeDialog({super.key});
@@ -52,6 +53,7 @@ class _QRCodeDialogState extends State<QRCodeDialog> {
                   .doc(FirebaseAuth.instance.currentUser!.uid)
                   .snapshots(),
               builder: (context, snapshot) {
+                print(_codeController.text);
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return CircularProgressIndicator();
                 } else if (snapshot.hasError) {
@@ -134,30 +136,17 @@ class _QRCodeDialogState extends State<QRCodeDialog> {
               } else {
                 String uid = _codeController.text;
 
-                // await FirebaseFirestore.instance
-                //     .collection('users')
-                //     .doc(uid)
-                //     .collection('pending')
-                //     .doc(FirebaseAuth.instance.currentUser!.uid)
-                //     .set(
-                //   {
-                //     'accepted': false,
-                //   },
-                // );
-
-                Future.wait([
-                  FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(FirebaseAuth.instance.currentUser!.uid)
-                      .collection('pending')
-                      .doc(uid)
-                      .set(
-                    {
-                      'accepted': false,
-                    },
-                  ),
-                ]);
-
+                await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(uid)
+                    .collection('pending')
+                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                    .set(
+                  {
+                    'accepted': false,
+                  },
+                );
+                await Future.delayed(const Duration(milliseconds: 200));
                 setState(() {
                   isWaitingForConfirmation = true;
                 });
