@@ -1,7 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:logit/widget/date_button.dart';
 // import 'package:logit/widget/reminder_card.dart';
 // import 'package:logit/model/event.dart';
