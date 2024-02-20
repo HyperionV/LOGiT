@@ -63,8 +63,7 @@ class BodyPartSelector extends StatelessWidget {
               onTap: (s) {
                 print(s);
                 onSelectionUpdated?.call(
-                bodyParts.withToggledId(s, mirror: mirrored)
-              );
+                bodyParts.withToggledId(s, mirror: mirrored));
               },
               context: context,
               selectedColor: selectedColor ?? colorScheme.inversePrimary,
