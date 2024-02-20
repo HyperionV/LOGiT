@@ -1,14 +1,17 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, library_private_types_in_public_api
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:logit/model/event.dart';
 import 'package:logit/screen/new_symptom.dart';
 
 class CreateReport extends StatefulWidget {
   final String medicalRecordID;
+  final String doctorId;
   final void Function() updateSuper;
-  const CreateReport(this.medicalRecordID, this.updateSuper, {super.key});
+  const CreateReport(this.medicalRecordID, this.doctorId, this.updateSuper,
+      {super.key});
 
   @override
   _CreateReportState createState() => _CreateReportState();
@@ -75,6 +78,20 @@ class _CreateReportState extends State<CreateReport> {
   }
 
   Future<void> onSave() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.doctorId)
+        .collection('notifications')
+        .add(
+      {
+        'type': 5,
+        'createTime': Timestamp.now(),
+        'sender': FirebaseAuth.instance.currentUser!.uid,
+        'timeAttached': Timestamp.now(),
+        'isRead': false,
+      },
+    );
+
     await FirebaseFirestore.instance
         .collection('medical_records')
         .doc(widget.medicalRecordID)

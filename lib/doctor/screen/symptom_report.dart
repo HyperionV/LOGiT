@@ -239,7 +239,7 @@ class _SymptomReportDoctorState extends State<SymptomReportDoctor> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MessageScreen(
+                    builder: (context) => MessageScreenDoctor(
                         widget.treatment.patient.uid,
                         widget.treatment.doctor.uid),
                   ),

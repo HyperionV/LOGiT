@@ -10,6 +10,7 @@ import 'package:logit/model/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logit/doctor/screen/message.dart';
 import 'package:logit/doctor/screen/home.dart';
+import 'package:logit/patient/message.dart';
 
 class DisplayMessage extends StatelessWidget {
   final String string;
@@ -130,15 +131,32 @@ class _NotificationItemState extends State<NotificationItem> {
               onTap: () async {
                 switch (widget.notification.type) {
                   case 0:
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MessageScreen(
-                          widget.notification.sender,
-                          FirebaseAuth.instance.currentUser!.uid,
+                    final userSnapshot = await FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(FirebaseAuth.instance.currentUser!.uid)
+                        .get();
+                    final isDoctor = userSnapshot.data()?['isDoctor'] ?? false;
+                    if (isDoctor) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MessageScreenDoctor(
+                            widget.notification.sender,
+                            FirebaseAuth.instance.currentUser!.uid,
+                          ),
                         ),
-                      ),
-                    );
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MessageScreen(
+                            FirebaseAuth.instance.currentUser!.uid,
+                            widget.notification.sender,
+                          ),
+                        ),
+                      );
+                    }
                     break;
                   case 1:
                     Navigator.pushReplacement(
@@ -194,7 +212,7 @@ class _NotificationItemState extends State<NotificationItem> {
 
                     break;
                   case 4:
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => MainScreenDoctor.openAt(1),
@@ -202,7 +220,7 @@ class _NotificationItemState extends State<NotificationItem> {
                     );
                     break;
                   case 5:
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => MainScreenDoctor.openAt(1),
