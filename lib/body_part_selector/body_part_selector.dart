@@ -1,12 +1,13 @@
 import 'dart:math';
 
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logit/body_part_selector/model/body_parts.dart';
 import 'package:logit/body_part_selector/model/body_side.dart';
 import 'package:logit/body_part_selector/service/svg_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:touchable/touchable.dart';
-
+//update
 class BodyPartSelector extends StatelessWidget {
   const BodyPartSelector({
     super.key,
@@ -14,6 +15,7 @@ class BodyPartSelector extends StatelessWidget {
     required this.bodyParts,
     required this.onSelectionUpdated,
     required this.collectContent,
+    required this.getBodyPartSymptom,
     this.mirrored = false,
     this.selectedColor,
     this.unselectedColor,
@@ -24,6 +26,7 @@ class BodyPartSelector extends StatelessWidget {
   final BodySide side;
   final BodyParts bodyParts;
   final void Function(BodyParts bodyParts)? onSelectionUpdated;
+  final String Function(String bodyPart) getBodyPartSymptom;  
   final bool mirrored;
 
   final Color? selectedColor;
@@ -31,7 +34,9 @@ class BodyPartSelector extends StatelessWidget {
   final Color? selectedOutlineColor;
   final Color? unselectedOutlineColor;
 
-  final void Function(String) collectContent;
+  final void Function(String, String) collectContent;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +54,81 @@ class BodyPartSelector extends StatelessWidget {
         });
   }
 
+  void getSymptomDescription(String bodyPart, BuildContext context) {
+    final pickedBodyPart = bodyParts.toJson();
+    if(pickedBodyPart.containsKey(bodyPart) && pickedBodyPart[bodyPart] == true){
+      showDialog(context: context, builder: (context) {
+        final TextEditingController controller  = TextEditingController();
+        return AlertDialog(
+          title: const Text('Symptom description', style: TextStyle(fontSize: 15)),
+          content: TextField(
+            decoration: const InputDecoration(
+              hintText: 'Enter symptom description',
+            ),
+            controller: controller,
+          ),
+          actions: [
+            Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('Cancel'),
+                ),
+                const SizedBox(width: 60),
+                ElevatedButton(
+                  onPressed: () {
+                    collectContent(bodyPart, controller.text);
+                    onSelectionUpdated?.call(
+                    bodyParts.withToggledId(bodyPart, mirror: mirrored));
+                    Navigator.of(context).pop();
+                },
+                  child: const Text('Done'),
+                ),
+              ],
+            ),
+          ],
+        );
+      });
+    }
+    else {
+      showDialog(context: context, builder: (context) {
+        late TextEditingController controller  = TextEditingController(text: getBodyPartSymptom(bodyPart));
+        return AlertDialog(
+          title: const Text('Symptom description', style: TextStyle(fontSize: 15)),
+          content: TextField(
+            decoration: const InputDecoration(
+              hintText: 'Enter symptom description',
+            ),
+            controller: controller,
+          ),
+          actions: [
+            Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    collectContent(bodyPart, controller.text);
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Modify'),
+                ),
+                const SizedBox(width: 60),
+                ElevatedButton(
+                  onPressed: () {
+                    collectContent(bodyPart, '@REMOVED@');
+                    onSelectionUpdated?.call(
+                    bodyParts.withToggledId(bodyPart, mirror: mirrored));
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Remove'),
+                ),
+              ],
+            ),
+          ],
+        );
+      });
+    }
+  }
+
   Widget _buildBody(BuildContext context, DrawableRoot drawable) {
     final colorScheme = Theme.of(context).colorScheme;
     return AnimatedSwitcher(
@@ -64,9 +144,7 @@ class BodyPartSelector extends StatelessWidget {
               root: drawable,
               bodyParts: bodyParts,
               onTap: (s) {
-                collectContent(s);
-                onSelectionUpdated
-                    ?.call(bodyParts.withToggledId(s, mirror: mirrored));
+                getSymptomDescription(s, context);
               },
               context: context,
               selectedColor: selectedColor ?? colorScheme.inversePrimary,
