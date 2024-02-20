@@ -3,18 +3,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:logit/model/event.dart';
+import 'package:logit/model/medical_record.dart';
 import 'package:logit/screen/new_symptom.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class CreateReport extends StatefulWidget {
+  final MedicalRecordData medicalRecord;
   final String medicalRecordID;
-    final String doctorId;
+  final String doctorId;
   final void Function() updateSuper;
- const CreateReport(this.medicalRecordID, this.doctorId, this.updateSuper,
+  const CreateReport(
+      this.medicalRecord, this.medicalRecordID, this.doctorId, this.updateSuper,
       {super.key});
   @override
   _CreateReportState createState() => _CreateReportState();
 }
+
 class _CreateReportState extends State<CreateReport> {
   late TextEditingController _contentController;
   late DateTime _endDate;
@@ -93,6 +97,23 @@ class _CreateReportState extends State<CreateReport> {
         'isRead': false,
       },
     );
+
+    if (widget.medicalRecord.critical.contains(_contentController.text)) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.doctorId)
+          .collection('notifications')
+          .add(
+        {
+          'type': 6,
+          'createTime': Timestamp.now(),
+          'sender': FirebaseAuth.instance.currentUser!.uid,
+          'timeAttached': Timestamp.now(),
+          'isRead': false,
+        },
+      );
+    }
+
     await FirebaseFirestore.instance
         .collection('medical_records')
         .doc(widget.medicalRecordID)
@@ -112,7 +133,7 @@ class _CreateReportState extends State<CreateReport> {
 
   String bodyPartFormat(String input) {
     String result = '';
-    
+
     result += input[0].toUpperCase();
 
     for (int i = 1; i < input.length; i++) {
@@ -229,13 +250,15 @@ class _CreateReportState extends State<CreateReport> {
               await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ReportSymptomScreen(updateSymptom, getBodyPartSymptom),
+                  builder: (context) => ReportSymptomScreen(
+                      widget.medicalRecord, updateSymptom, getBodyPartSymptom),
                 ),
               );
 
               setState(() {
-                for(String key in symptomNote.keys) {
-                    _contentController.text += bodyPartFormat(key) + ' : ' + symptomNote[key]! + '\n';
+                for (String key in symptomNote.keys) {
+                  _contentController.text +=
+                      bodyPartFormat(key) + ' : ' + symptomNote[key]! + '\n';
                 }
                 symptomNote.clear();
               });

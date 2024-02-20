@@ -62,6 +62,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               .collection('users')
               .doc(FirebaseAuth.instance.currentUser!.uid)
               .collection('notifications')
+              .orderBy('createTime', descending: true)
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
@@ -76,11 +77,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
               return Expanded(
                 child: SingleChildScrollView(
                   child: SizedBox(
-                    height: 500,
+                    height: 650,
                     width: double.infinity,
                     child: ListView.builder(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      // physics: NeverScrollableScrollPhysics(),
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (ctx, index) {
                         final notiRecord = snapshot.data!.docs[index];

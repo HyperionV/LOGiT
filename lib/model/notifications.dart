@@ -8,6 +8,7 @@ List<String> message = [
   ' offered an appointment.',
   ' accepted your connection request.',
   ' created a new medical record.',
+  ' has a serious symptom, please contact the patient as soon as possible.',
 ];
 
 // type of notification
@@ -17,7 +18,7 @@ List<String> message = [
 // 3 - appointment offered -> open create reminder
 // 4 - connection accepted -> open connection panel
 // 5 - new medical record -> open health diary, exclusively for doctor
-// 6 - connection request -> open connection confirmation panel, exclusively for doctor
+// 6 - critical conditions -> open connection confirmation panel, exclusively for doctor
 
 class NotificationData {
   final String uid;

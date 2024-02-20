@@ -362,7 +362,7 @@ class _SymptomReportState extends State<SymptomReport> {
                   context: context,
                   isScrollControlled: true,
                   builder: (context) {
-                    return CreateReport(
+                    return CreateReport(widget.medicalRecord,
                         widget.medicalRecord.uid, widget.doctorID, reload);
                   },
                 );

@@ -2,11 +2,15 @@
 
 import 'package:logit/body_part_selector.dart';
 import 'package:flutter/material.dart';
+import 'package:logit/model/medical_record.dart';
 
 class ReportSymptomScreen extends StatefulWidget {
+  final MedicalRecordData medicalRecord;
   final void Function(String, String) updateSymptom;
   final String Function(String) getBodyPartSymptom;
-  const ReportSymptomScreen(this.updateSymptom, this.getBodyPartSymptom, {super.key});
+  const ReportSymptomScreen(
+      this.medicalRecord, this.updateSymptom, this.getBodyPartSymptom,
+      {super.key});
 
   @override
   State<ReportSymptomScreen> createState() => _ReportSymptomScreen();
@@ -19,6 +23,7 @@ class _ReportSymptomScreen extends State<ReportSymptomScreen> {
   void collectContent(String bodyPart, String content) {
     widget.updateSymptom(bodyPart, content);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
