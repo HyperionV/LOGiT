@@ -205,7 +205,7 @@ class _CreateReportState extends State<CreateReport> {
               );
 
               setState(() {
-                _contentController.text += ('${symptomNote.keys}: ${symptomNote.values}\n');
+                _contentController.text += '${symptomNote.keys}: ${symptomNote.values}\n';
               });
             },
             child: Text('Full body view'),
