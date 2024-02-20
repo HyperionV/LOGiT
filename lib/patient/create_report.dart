@@ -18,12 +18,16 @@ class _CreateReportState extends State<CreateReport> {
   late TextEditingController _contentController;
   late DateTime _endDate;
 
-  Map<String, int> partCounter = {};
+  Map<String, String> symptomNote = {};
 
-  void count(String bodyPart) {
-    partCounter[bodyPart] = (partCounter[bodyPart] ?? 0) + 1;
-    if (partCounter[bodyPart]! % 2 == 0) {
-      partCounter.remove(bodyPart);
+  String getSymptom(String bodyPart) {
+    return symptomNote[bodyPart] ?? '';
+  }
+
+  void updateSymptom(String bodyPart, String content) {
+    symptomNote[bodyPart] = content;
+    if (symptomNote[bodyPart] == '@REMOVED@') {
+      symptomNote.remove(bodyPart);
     }
   }
 
@@ -195,12 +199,12 @@ class _CreateReportState extends State<CreateReport> {
               await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ReportSymptomScreen(count),
+                  builder: (context) => ReportSymptomScreen(updateSymptom, ),
                 ),
               );
 
               setState(() {
-                _contentController.text += partCounter.keys.join('\n');
+                _contentController.text += symptomNote.keys.join('\n');
               });
             },
             child: Text('Full body view'),

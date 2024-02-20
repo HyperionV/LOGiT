@@ -4,8 +4,9 @@ import 'package:logit/body_part_selector.dart';
 import 'package:flutter/material.dart';
 
 class ReportSymptomScreen extends StatefulWidget {
-  final void Function(String) count;
-  const ReportSymptomScreen(this.count, {super.key});
+  final void Function(String, String) updateSymptom;
+  final String Function(String) getBodyPartSymptom;
+  const ReportSymptomScreen(this.updateSymptom, this.getBodyPartSymptom, {super.key});
 
   @override
   State<ReportSymptomScreen> createState() => _ReportSymptomScreen();
@@ -15,8 +16,8 @@ class _ReportSymptomScreen extends State<ReportSymptomScreen> {
   BodyParts _bodyParts = const BodyParts();
   late TextEditingController controller;
 
-  void collectContent(String bodyPart) {
-    widget.count(bodyPart);
+  void collectContent(String bodyPart, String content) {
+    widget.updateSymptom(bodyPart, content);
   }
   @override
   Widget build(BuildContext context) {
@@ -41,8 +42,9 @@ class _ReportSymptomScreen extends State<ReportSymptomScreen> {
       ),
       body: SafeArea(
         child: BodyPartSelectorTurnable(
-          getContent: widget.count,
+          getContent: widget.updateSymptom,
           bodyParts: _bodyParts,
+          getBodyPartSymptom: widget.getBodyPartSymptom,
           onSelectionUpdated: (p) => setState(() => _bodyParts = p),
           labelData: const RotationStageLabelData(
             front: 'Front',

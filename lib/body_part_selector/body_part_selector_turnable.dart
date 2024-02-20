@@ -11,13 +11,15 @@ class BodyPartSelectorTurnable extends StatelessWidget {
     super.key,
     required this.bodyParts,
     required this.getContent,
+    required this.getBodyPartSymptom,
     this.onSelectionUpdated,
     this.mirrored = false,
     this.padding = EdgeInsets.zero,
     this.labelData,
   });
 
-  final void Function(String) getContent;
+  final void Function(String, String) getContent;
+  final String Function(String) getBodyPartSymptom;
 
   final BodyParts bodyParts;
   final Function(BodyParts)? onSelectionUpdated;
@@ -42,6 +44,7 @@ class BodyPartSelectorTurnable extends StatelessWidget {
               right: BodySide.right,
             ),
             collectContent: getContent,
+            getBodyPartSymptom: getBodyPartSymptom,
             bodyParts: bodyParts,
             onSelectionUpdated: onSelectionUpdated,
             mirrored: mirrored,
