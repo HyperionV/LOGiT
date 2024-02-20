@@ -28,8 +28,7 @@ class App extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
-            if (snapshot.hasData) {
-              return FutureBuilder<DocumentSnapshot>(
+            if (snapshot.hasData) {              return FutureBuilder<DocumentSnapshot>(
                 future: FirebaseFirestore.instance
                     .collection('users')
                     .doc(snapshot.data!.uid)
