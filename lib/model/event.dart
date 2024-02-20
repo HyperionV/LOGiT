@@ -101,6 +101,13 @@ Future<void> fetchEvents() async {
   }
 }
 
+Future<void> addEvent(String uid, ReminderEvent event) async {
+  final dateStr = formatddMMyy(event.endDate.toDate());
+  events[dateStr] ??= [];
+  events[dateStr]!.add(event);
+  await updateSchedule();
+}
+
 Future<void> updateSchedule() async {
   final user = FirebaseAuth.instance.currentUser;
   if (user != null) {

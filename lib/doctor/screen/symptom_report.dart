@@ -42,15 +42,15 @@ class _CustomFloatingActionButtonAnimator extends FloatingActionButtonAnimator {
   }
 }
 
-class SymptomReport extends StatefulWidget {
+class SymptomReportDoctor extends StatefulWidget {
   final TreatmentData treatment;
-  const SymptomReport(this.treatment, {super.key});
+  const SymptomReportDoctor(this.treatment, {super.key});
 
   @override
-  _SymptomReportState createState() => _SymptomReportState();
+  _SymptomReportDoctorState createState() => _SymptomReportDoctorState();
 }
 
-class _SymptomReportState extends State<SymptomReport> {
+class _SymptomReportDoctorState extends State<SymptomReportDoctor> {
   final Color iconColor = Color.fromARGB(255, 15, 145, 133);
   String selectedFilter = 'All';
 

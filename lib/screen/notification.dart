@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logit/widget/header.dart';
 import 'package:logit/widget/notification.dart';
 import 'package:logit/model/notifications.dart';
-import 'package:logit/model/user.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -88,10 +87,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
                         return NotificationItem(
                           NotificationData(
+                            notiRecord.id,
                             notiRecord['sender'] as String,
                             notiRecord['type'] as int,
                             notiRecord['createTime'] as Timestamp,
                             notiRecord['timeAttached'] as Timestamp,
+                            // notiRecord['treatmentAttached'] as String,
                             notiRecord['isRead'] as bool,
                           ),
                         );

@@ -38,8 +38,11 @@ class _NewMessageState extends State<NewMessage> {
     await sendNewMessage(
       widget.patientUid,
       widget.doctorUid,
-      MessageData(await fetchWithUID(widget.doctorUid), _messageController.text,
-          Timestamp.now()),
+      MessageData(
+        await fetchWithUID(widget.doctorUid),
+        _messageController.text,
+        Timestamp.now(),
+      ),
     );
     widget.onSendMessage();
     FocusScope.of(context).unfocus();
@@ -79,11 +82,7 @@ class MessageScreen extends StatefulWidget {
   final String patientUid;
   final String doctorUid;
 
-  const MessageScreen(
-    this.patientUid,
-    this.doctorUid, {
-    Key? key,
-  }) : super(key: key);
+  const MessageScreen(this.patientUid, this.doctorUid, {super.key});
 
   @override
   _MessageScreenState createState() => _MessageScreenState();

@@ -25,6 +25,9 @@ class MainScreenDoctor extends StatefulWidget {
   int initialPage;
   final DateTime? selectedDate;
 
+  MainScreenDoctor.openAt(this.initialPage, {super.key})
+      : selectedDate = DateTime.now();
+
   MainScreenDoctor.openReminderAt({
     super.key,
     this.initialPage = 1,

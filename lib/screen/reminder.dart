@@ -29,7 +29,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
   @override
   void initState() {
     selectedDate =
-        widget.selectedDate == null ? widget.selectedDate : Timestamp.now();
+        widget.selectedDate != null ? widget.selectedDate : Timestamp.now();
     super.initState();
   }
 

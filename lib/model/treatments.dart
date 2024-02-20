@@ -27,7 +27,6 @@ class TreatmentData {
 
 List<TreatmentData> treatments = [];
 
-
 final _fetchTreatmentDataLock = Lock();
 
 Future<void> fetchTreatmentData() async {
@@ -36,7 +35,8 @@ Future<void> fetchTreatmentData() async {
     if (user != null) {
       treatments.clear();
       final userId = user.uid;
-      final userDoc = FirebaseFirestore.instance.collection('users').doc(userId);
+      final userDoc =
+          FirebaseFirestore.instance.collection('users').doc(userId);
 
       final connectionsCollection = userDoc.collection('connections');
       final connectionsSnapshot = await connectionsCollection.get();
@@ -61,7 +61,8 @@ Future<void> fetchTreatmentData() async {
 
             final title = recordDoc['title'] as String;
             final doctor = await fetchWithUID(recordDoc['doctorId'] as String);
-            final patient = await fetchWithUID(recordDoc['patientId'] as String);
+            final patient =
+                await fetchWithUID(recordDoc['patientId'] as String);
 
             final startDate = recordDoc['startDate'] as Timestamp;
             final endDate = recordDoc['endDate'] as Timestamp;
@@ -75,4 +76,41 @@ Future<void> fetchTreatmentData() async {
       }
     }
   });
+}
+
+Future<TreatmentData> fetchTreatmentWithUid(String uid) async {
+  try {
+    DocumentSnapshot treatmentSnapshot = await FirebaseFirestore.instance
+        .collection('medical_records')
+        .doc(uid)
+        .get();
+
+    if (treatmentSnapshot.exists) {
+      Map<String, dynamic> treatmentData =
+          treatmentSnapshot.data() as Map<String, dynamic>;
+
+      final title = treatmentData['title'] as String;
+      final doctor = await fetchWithUID(treatmentData['doctorId'] as String);
+      final patient = await fetchWithUID(treatmentData['patientId'] as String);
+
+      final startDate = treatmentData['startDate'] as Timestamp;
+      final endDate = treatmentData['endDate'] as Timestamp;
+      final medicalRecord = await fetchMedicalRecordData(
+          treatmentData['medicalRecordId'] as String);
+
+      return TreatmentData(
+        uid,
+        title,
+        doctor,
+        patient,
+        startDate,
+        endDate,
+        medicalRecord,
+      );
+    }
+  } catch (e) {
+    print(e);
+  }
+  return TreatmentData('', '', UserData('', '', '', '', '', '', '', ''), UserData('', '', '', '', '', '', '', ''), Timestamp.now(), Timestamp.now(), MedicalRecordData('', '', '', '', '', '', [], []),
+  );
 }
