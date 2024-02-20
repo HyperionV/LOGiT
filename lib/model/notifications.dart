@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:logit/model/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 List<String> message = [
@@ -9,7 +8,6 @@ List<String> message = [
   ' offered an appointment.',
   ' accepted your connection request.',
   ' created a new medical record.',
-  ' sent you a connection request.',
 ];
 
 // type of notification
@@ -21,17 +19,24 @@ List<String> message = [
 // 5 - new medical record -> open health diary, exclusively for doctor
 // 6 - connection request -> open connection confirmation panel, exclusively for doctor
 
-// filter theo medical tag
-
 class NotificationData {
+  final String uid;
   final String sender;
   final int type;
   bool isRead;
   final Timestamp createTime;
   final Timestamp timeAttached;
+  // final String treatmentAttached;
 
   NotificationData(
-      this.sender, this.type, this.createTime, this.timeAttached, this.isRead);
+    this.uid,
+    this.sender,
+    this.type,
+    this.createTime,
+    this.timeAttached,
+    // this.treatmentAttached,
+    this.isRead,
+  );
 }
 
 List<NotificationData> notifications = [];
@@ -51,14 +56,15 @@ Future<void> fetchNotifications() async {
       print(notiRecord);
       notifications.add(
         NotificationData(
+          noti.id,
           notiRecord['sender'] as String,
           notiRecord['type'] as int,
           notiRecord['createTime'] as Timestamp,
           notiRecord['timeAttached'] as Timestamp,
+          // notiRecord['treatmentAttached'] as String,
           notiRecord['isRead'] as bool,
         ),
       );
-      print(notifications.length);
     }
   }
 }

@@ -38,8 +38,11 @@ class _NewMessageState extends State<NewMessage> {
     await sendNewMessage(
       widget.patientUid,
       widget.doctorUid,
-      MessageData(await fetchWithUID(widget.doctorUid), _messageController.text,
-          Timestamp.now()),
+      MessageData(
+        await fetchWithUID(widget.doctorUid),
+        _messageController.text,
+        Timestamp.now(),
+      ),
     );
     widget.onSendMessage();
     FocusScope.of(context).unfocus();
@@ -75,21 +78,17 @@ class _NewMessageState extends State<NewMessage> {
   }
 }
 
-class MessageScreen extends StatefulWidget {
+class MessageScreenDoctor extends StatefulWidget {
   final String patientUid;
   final String doctorUid;
 
-  const MessageScreen(
-    this.patientUid,
-    this.doctorUid, {
-    Key? key,
-  }) : super(key: key);
+  const MessageScreenDoctor(this.patientUid, this.doctorUid, {super.key});
 
   @override
-  _MessageScreenState createState() => _MessageScreenState();
+  _MessageScreenDoctorState createState() => _MessageScreenDoctorState();
 }
 
-class _MessageScreenState extends State<MessageScreen> {
+class _MessageScreenDoctorState extends State<MessageScreenDoctor> {
   late Future<List<MessageData>> _messageFuture;
 
   @override
@@ -98,7 +97,19 @@ class _MessageScreenState extends State<MessageScreen> {
     super.initState();
   }
 
-  void _onSendMessage() {
+  void _onSendMessage() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.patientUid)
+        .collection('notifications')
+        .add({
+      'sender': widget.doctorUid,
+      'type': 0,
+      'createTime': Timestamp.now(),
+      'timeAttached': Timestamp.now(),
+      'isRead': false,
+    });
+
     setState(() {
       _messageFuture = fetchMessages(widget.patientUid, widget.doctorUid);
     });

@@ -38,7 +38,7 @@ class _TreatmentCardState extends State<TreatmentCard> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => SymptomReport(widget.treatment),
+              builder: (context) => SymptomReportDoctor(widget.treatment),
             ),
           );
         },

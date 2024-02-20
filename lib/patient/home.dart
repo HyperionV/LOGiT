@@ -29,6 +29,9 @@ class MainScreen extends StatefulWidget {
     this.selectedDate,
   });
 
+  MainScreen.openAt(this.initialPage, {super.key})
+      : selectedDate = DateTime.now();
+
   @override
   State<MainScreen> createState() {
     return _MainScreenState();
@@ -54,7 +57,8 @@ class _MainScreenState extends State<MainScreen> {
                   NotificationScreen(),
                   if (widget.selectedDate != null)
                     ReminderScreen.openAt(
-                        Timestamp.fromDate(widget.selectedDate!))
+                      Timestamp.fromDate(widget.selectedDate!),
+                    )
                   else
                     ReminderScreen(),
                 ],

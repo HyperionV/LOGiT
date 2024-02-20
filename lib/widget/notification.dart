@@ -7,6 +7,10 @@ import 'package:logit/model/event.dart';
 import 'package:logit/widget/create_reminder.dart';
 import 'package:logit/patient/home.dart';
 import 'package:logit/model/user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:logit/doctor/screen/message.dart';
+import 'package:logit/doctor/screen/home.dart';
+import 'package:logit/patient/message.dart';
 
 class DisplayMessage extends StatelessWidget {
   final String string;
@@ -61,10 +65,20 @@ class NotificationItem extends StatefulWidget {
 
 class _NotificationItemState extends State<NotificationItem> {
   late Future<UserData> _userDataFuture;
+  // late TreatmentData? _treatmentDataFuture;
 
-  @override
+  // void initTreatmentData() async {
+  //   if (widget.notification.treatmentAttached.isNotEmpty) {
+  //     _treatmentDataFuture =
+  //         await fetchTreatmentWithUid(widget.notification.treatmentAttached);
+  //   } else {
+  //     _treatmentDataFuture = null;
+  //   }
+  // }
+
   void initState() {
     _userDataFuture = fetchWithUID(widget.notification.sender);
+    // initTreatmentData();
     super.initState();
   }
 
@@ -74,7 +88,11 @@ class _NotificationItemState extends State<NotificationItem> {
       future: _userDataFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return SizedBox(
+            height: 20,
+            width: 20,
+            child: CircularProgressIndicator(),
+          );
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else if (snapshot.hasData) {
@@ -94,7 +112,7 @@ class _NotificationItemState extends State<NotificationItem> {
               subtitle: Padding(
                 padding: const EdgeInsets.only(top: 8),
                 child: Text(
-                  widget.notification.createTime.toDate().toString(),
+                  '${formatddMMyy(widget.notification.createTime.toDate())} at ${formatTime(widget.notification.createTime.toDate().hour + widget.notification.createTime.toDate().minute / 60)}',
                   style: TextStyle(
                     fontSize: 13,
                   ),
@@ -110,27 +128,55 @@ class _NotificationItemState extends State<NotificationItem> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24),
               ),
-              onTap: () {
+              onTap: () async {
                 switch (widget.notification.type) {
                   case 0:
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) =>
-                    //         ReminderScreen.openAt(widget.notification.time),
-                    //   ),
-                    // );
-                    print('open in connection');
+                    final userSnapshot = await FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(FirebaseAuth.instance.currentUser!.uid)
+                        .get();
+                    final isDoctor = userSnapshot.data()?['isDoctor'] ?? false;
+                    if (isDoctor) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MessageScreenDoctor(
+                            widget.notification.sender,
+                            FirebaseAuth.instance.currentUser!.uid,
+                          ),
+                        ),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MessageScreen(
+                            FirebaseAuth.instance.currentUser!.uid,
+                            widget.notification.sender,
+                          ),
+                        ),
+                      );
+                    }
                     break;
                   case 1:
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => MainScreen.openReminderAt(
+                      MaterialPageRoute(builder: (context) {
+                        ReminderEvent event = ReminderEvent(
+                          widget.notification.timeAttached,
+                          'Appointment with ${sender.fullName}',
+                          widget.notification.timeAttached.toDate().hour * 1.0,
+                          widget.notification.timeAttached.toDate().hour * 1.0,
+                        );
+                        if (!events.containsValue(event))
+                          addEvent(
+                              FirebaseAuth.instance.currentUser!.uid, event);
+                        return MainScreen.openReminderAt(
                           initialPage: 3,
-                          selectedDate: widget.notification.createTime.toDate(),
-                        ),
-                      ),
+                          selectedDate:
+                              widget.notification.timeAttached.toDate(),
+                        );
+                      }),
                     );
                     break;
                   case 2:
@@ -166,18 +212,31 @@ class _NotificationItemState extends State<NotificationItem> {
 
                     break;
                   case 4:
-                    print('open in health diary');
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainScreenDoctor.openAt(1),
+                      ),
+                    );
                     break;
                   case 5:
-                    print('open in health diary');
-                    break;
-                  case 6:
-                    print('open in health diary');
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainScreenDoctor.openAt(1),
+                      ),
+                    );
                     break;
                 }
 
-                setState(() {
+                setState(() async {
                   widget.notification.isRead = true;
+                  await FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .collection('notifications')
+                      .doc(widget.notification.uid)
+                      .update({'isRead': true});
                 });
               },
             ),

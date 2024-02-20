@@ -164,12 +164,24 @@ class _CreateAppointmentState extends State<CreateAppointment> {
                         await FirebaseFirestore.instance
                             .collection('users')
                             .doc(widget.doctorId)
+                            .collection('notifications')
+                            .add({
+                          'type': 3,
+                          'sender': FirebaseAuth.instance.currentUser!.uid,
+                          'createTime': Timestamp.now(),
+                          'timeAttached': Timestamp.fromDate(selectedDate!),
+                          'isRead': false,
+                        });
+
+                        await FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(widget.doctorId)
                             .collection('appointments')
                             .doc(FirebaseAuth.instance.currentUser!.uid)
                             .set({
-                              'accepted': false,
-                              'time': Timestamp.fromDate(selectedDate!),
-                            });
+                          'accepted': false,
+                          'time': Timestamp.fromDate(selectedDate!),
+                        });
                         setState(() {
                           booked = true;
                         });
