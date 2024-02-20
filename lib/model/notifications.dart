@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:logit/model/user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 List<String> message = [
   ' sent you a message.',
@@ -23,11 +24,41 @@ List<String> message = [
 // filter theo medical tag
 
 class NotificationData {
-  final UserData sender;
+  final String sender;
   final int type;
-  bool isRead = false;
+  bool isRead;
   final Timestamp createTime;
   final Timestamp timeAttached;
 
-  NotificationData(this.sender, this.type, this.createTime, this.timeAttached);
+  NotificationData(
+      this.sender, this.type, this.createTime, this.timeAttached, this.isRead);
+}
+
+List<NotificationData> notifications = [];
+
+Future<void> fetchNotifications() async {
+  notifications.clear();
+  print('fetching notifications');
+  final notificationCollection = FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('notifications');
+  final NotificationSnapshot = await notificationCollection.get();
+  for (final noti in NotificationSnapshot.docs) {
+    if (noti.exists) {
+      Map<String, dynamic> notiRecord = noti.data();
+      print(noti.id);
+      print(notiRecord);
+      notifications.add(
+        NotificationData(
+          notiRecord['sender'] as String,
+          notiRecord['type'] as int,
+          notiRecord['createTime'] as Timestamp,
+          notiRecord['timeAttached'] as Timestamp,
+          notiRecord['isRead'] as bool,
+        ),
+      );
+      print(notifications.length);
+    }
+  }
 }

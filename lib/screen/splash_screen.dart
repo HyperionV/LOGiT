@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen>
           opacity: _opacity,
           duration: const Duration(seconds: 2),
           child: Image.asset(
-            'assets\\splash_screen.png',
+            'assets/logo/logo.png',
             height: 150,
           ),
         ),

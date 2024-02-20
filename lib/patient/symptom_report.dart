@@ -9,6 +9,7 @@ import 'package:logit/model/medical_record.dart';
 import 'package:logit/patient/message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logit/patient/create_report.dart';
+import 'package:logit/widget/create_appointment.dart';
 
 class _CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {
   final double offsetX;
@@ -219,7 +220,9 @@ class _SymptomReportState extends State<SymptomReport> {
                             ),
                             const Spacer(),
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showDatePickDialog(context, widget.doctorID);
+                              },
                               icon: Icon(
                                 Icons.calendar_month,
                                 size: 30,

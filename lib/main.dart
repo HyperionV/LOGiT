@@ -41,7 +41,6 @@ class App extends StatelessWidget {
                       Map<String, dynamic> userData =
                           userSnapshot.data!.data() as Map<String, dynamic>;
                       fetchEvents();
-                      // fetchTreatmentData();
                       if (userData['isDoctor'] as bool == true) {
                         return MainScreenDoctor();
                       } else {
@@ -52,14 +51,21 @@ class App extends StatelessWidget {
                     }
                   }
                   return Scaffold(
-                      body: Center(child: CircularProgressIndicator()));
+                    body: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
                 },
               );
             } else {
               return AuthScreen();
             }
           }
-          return Scaffold(body: Center(child: CircularProgressIndicator()));
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
         },
       ),
     );

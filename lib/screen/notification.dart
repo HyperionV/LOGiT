@@ -1,7 +1,10 @@
-// ignore_for_file: library_private_types_in_public_api, prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logit/widget/header.dart';
+import 'package:logit/widget/notification.dart';
+import 'package:logit/model/notifications.dart';
+import 'package:logit/model/user.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -11,6 +14,17 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
+  Future<void> fetchNoti() async {
+    notifications.clear();
+    await fetchNotifications();
+  }
+
+  @override
+  void initState() {
+    fetchNoti();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -44,19 +58,63 @@ class _NotificationScreenState extends State<NotificationScreen> {
           ),
         ),
         SizedBox(height: 20),
-        // Expanded(
-        //   child: ListView.builder(
-        //     itemCount: 5,
-        //     itemBuilder: (ctx, index) {
-        //       return NotificationItem(NotificationData(
-        //         users[0],
-        //         3,
-        //         Timestamp.now(),
-        //         Timestamp.now(),
-        //       ));
-        //     },
-        //   ),
-        // ),
+        StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('users')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .collection('notifications')
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            }
+
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator();
+            }
+
+            if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
+              return Expanded(
+                child: SingleChildScrollView(
+                  child: SizedBox(
+                    height: 500,
+                    width: double.infinity,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (ctx, index) {
+                        final notiRecord = snapshot.data!.docs[index];
+
+                        return NotificationItem(
+                          NotificationData(
+                            notiRecord['sender'] as String,
+                            notiRecord['type'] as int,
+                            notiRecord['createTime'] as Timestamp,
+                            notiRecord['timeAttached'] as Timestamp,
+                            notiRecord['isRead'] as bool,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              );
+            } else {
+              return Expanded(
+                child: Center(
+                  child: Text(
+                    'No notifications at the moment.',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              );
+            }
+          },
+        ),
       ],
     );
   }
