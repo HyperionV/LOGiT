@@ -110,6 +110,22 @@ class _CreateReportState extends State<CreateReport> {
     widget.updateSuper();
   }
 
+  String bodyPartFormat(String input) {
+    String result = '';
+    
+    result += input[0].toUpperCase();
+
+    for (int i = 1; i < input.length; i++) {
+      if (input[i].toUpperCase() == input[i]) {
+        result += ' ${input[i]}';
+      } else {
+        result += input[i];
+      }
+    }
+
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -219,7 +235,7 @@ class _CreateReportState extends State<CreateReport> {
 
               setState(() {
                 for(String key in symptomNote.keys) {
-                    _contentController.text += key + ' : ' + symptomNote[key]! + '\n';
+                    _contentController.text += bodyPartFormat(key) + ' : ' + symptomNote[key]! + '\n';
                 }
                 symptomNote.clear();
               });

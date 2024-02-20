@@ -113,7 +113,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
                 child: Text(
                   'Reminder',
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 28,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -122,14 +122,14 @@ class _ReminderScreenState extends State<ReminderScreen> {
               IconButton(
                 icon: Icon(
                   Icons.edit_calendar_rounded,
-                  size: 35,
+                  size: 32,
                 ),
                 onPressed: addNewReminder,
               ),
               IconButton(
                 icon: const Icon(
                   Icons.medical_information_rounded,
-                  size: 35,
+                  size: 32,
                 ),
                 onPressed: () {
                   Navigator.push(

@@ -20,14 +20,14 @@ class ScreenHeader extends StatelessWidget {
           Text(
             title,
             style: const TextStyle(
-              fontSize: 32,
+              fontSize: 28,
               fontWeight: FontWeight.bold,
             ),
           ),
           IconButton(
             icon: const Icon(
               Icons.account_circle_rounded,
-              size: 45,
+              size: 38,
             ),
             onPressed: () async {
               final user = FirebaseAuth.instance.currentUser;

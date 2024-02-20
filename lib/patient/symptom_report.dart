@@ -68,7 +68,7 @@ class _SymptomReportState extends State<SymptomReport> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: fetchWithUID(widget.doctorID),
-      builder: (context, snapshot) {
+      builder: (zxt, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
         } else if (snapshot.hasError) {
