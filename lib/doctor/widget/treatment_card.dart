@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:logit/model/treatments.dart';
-import 'package:logit/patient/symptom_report.dart';
+import 'package:logit/doctor/screen/symptom_report.dart';
 
 class TreatmentCard extends StatefulWidget {
   const TreatmentCard(this.treatment, this.onLongPress, {super.key});
@@ -26,6 +26,8 @@ class _TreatmentCardState extends State<TreatmentCard> {
     return '${date.day}/${date.month}/${date.year} - $end';
   }
 
+  bool notificationOn = false;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -36,8 +38,7 @@ class _TreatmentCardState extends State<TreatmentCard> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => SymptomReport(
-                  widget.treatment.doctor.uid, widget.treatment.medicalRecord),
+              builder: (context) => SymptomReport(widget.treatment),
             ),
           );
         },
@@ -57,7 +58,7 @@ class _TreatmentCardState extends State<TreatmentCard> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: Image.network(
-                      widget.treatment.doctor.imageUrl,
+                      widget.treatment.patient.imageUrl,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -75,14 +76,14 @@ class _TreatmentCardState extends State<TreatmentCard> {
                     ),
                     // const SizedBox(height: 5),
                     Text(
-                      widget.treatment.doctor.fullName,
+                      widget.treatment.patient.fullName,
                       style: const TextStyle(
                         fontSize: 14,
                         color: Colors.grey,
                       ),
                     ),
                     Text(
-                      widget.treatment.doctor.address,
+                      widget.treatment.patient.address,
                       style: const TextStyle(
                         fontSize: 12,
                         color: Colors.grey,
@@ -102,6 +103,29 @@ class _TreatmentCardState extends State<TreatmentCard> {
                         fontSize: 14,
                         color: Colors.grey,
                       ),
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                Column(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          notificationOn = !notificationOn;
+                        });
+                      },
+                      icon: notificationOn
+                          ? Icon(
+                              Icons.notifications_active,
+                              size: 20,
+                              color: Color.fromARGB(255, 116, 183, 119),
+                            )
+                          : Icon(
+                              Icons.notifications_off,
+                              size: 20,
+                              color: Color.fromARGB(255, 214, 79, 70),
+                            ),
                     ),
                   ],
                 ),

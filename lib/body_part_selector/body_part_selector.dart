@@ -13,6 +13,7 @@ class BodyPartSelector extends StatelessWidget {
     required this.side,
     required this.bodyParts,
     required this.onSelectionUpdated,
+    required this.collectContent,
     this.mirrored = false,
     this.selectedColor,
     this.unselectedColor,
@@ -29,6 +30,8 @@ class BodyPartSelector extends StatelessWidget {
   final Color? unselectedColor;
   final Color? selectedOutlineColor;
   final Color? unselectedOutlineColor;
+
+  final void Function(String) collectContent;
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +64,15 @@ class BodyPartSelector extends StatelessWidget {
               root: drawable,
               bodyParts: bodyParts,
               onTap: (s) {
+<<<<<<< HEAD
                 print(s);
                 onSelectionUpdated?.call(
                 bodyParts.withToggledId(s, mirror: mirrored));
+=======
+                collectContent(s);
+                onSelectionUpdated
+                    ?.call(bodyParts.withToggledId(s, mirror: mirrored));
+>>>>>>> 274c2b76b4e26c49a92be972bdf45cbb7bde3bf0
               },
               context: context,
               selectedColor: selectedColor ?? colorScheme.inversePrimary,

@@ -3,9 +3,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:logit/screen/blog.dart';
+import 'package:logit/patient/blog.dart';
 import 'package:logit/screen/notification.dart';
-import 'package:logit/screen/health_diary.dart';
+import 'package:logit/patient/health_diary.dart';
 import 'package:logit/screen/reminder.dart';
 
 const List<String> titles = [

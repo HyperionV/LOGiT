@@ -6,7 +6,7 @@ import 'package:logit/widget/date_picker.dart';
 import 'package:logit/widget/reminder_card.dart';
 import 'package:logit/model/event.dart';
 import 'package:logit/widget/create_reminder.dart';
-import 'package:logit/screen/medical_reminder.dart';
+import 'package:logit/patient/medical_reminder.dart';
 
 void invokeCallBack() {
   _ReminderScreenState()._onLongPress();

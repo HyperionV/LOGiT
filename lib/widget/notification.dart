@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:logit/model/notifications.dart';
 import 'package:logit/model/event.dart';
 import 'package:logit/widget/create_reminder.dart';
-import 'package:logit/screen/home.dart';
+import 'package:logit/patient/home.dart';
+import 'package:logit/model/user.dart';
 
 class DisplayMessage extends StatelessWidget {
   final String string;
@@ -59,108 +60,132 @@ class NotificationItem extends StatefulWidget {
 }
 
 class _NotificationItemState extends State<NotificationItem> {
+  late Future<UserData> _userDataFuture;
+
+  @override
+  void initState() {
+    _userDataFuture = fetchWithUID(widget.notification.sender);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-      child: ListTile(
-        leading: CircleAvatar(
-          radius: 24,
-          backgroundColor: Color.fromARGB(255, 201, 201, 201),
-        ),
-        title: DisplayMessage(
-            '${widget.notification.sender.fullName}${message[widget.notification.type]}',
-            widget.notification.sender.fullName),
-        subtitle: Padding(
-          padding: const EdgeInsets.only(top: 8),
-          child: Text(
-            // '${formatTime(widget.notification.createTime.seconds + widget.notification.time.minute / 60)}, ${formatter.format(widget.notification.time)}',
-            widget.notification.createTime.toDate().toString(),
-            style: TextStyle(
-              fontSize: 13,
-            ),
-          ),
-        ),
-        trailing: Icon(
-          Icons.arrow_forward_ios,
-          size: 16,
-        ),
-        tileColor: widget.notification.isRead
-            ? Color.fromARGB(255, 214, 247, 216)
-            : Color.fromARGB(255, 240, 240, 240),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-        ),
-        onTap: () {
-          switch (widget.notification.type) {
-            case 0:
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) =>
-              //         ReminderScreen.openAt(widget.notification.time),
-              //   ),
-              // );
-              print('open in connection');
-              break;
-            case 1:
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MainScreen.openReminderAt(
-                    initialPage: 3,
-                    selectedDate: widget.notification.createTime.toDate(),
+    return FutureBuilder<UserData>(
+      future: _userDataFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (snapshot.hasData) {
+          final sender = snapshot.data!;
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+            child: ListTile(
+              leading: CircleAvatar(
+                radius: 24,
+                backgroundColor: Color.fromARGB(255, 201, 201, 201),
+                backgroundImage: NetworkImage(sender.imageUrl),
+              ),
+              title: DisplayMessage(
+                '${sender.fullName}${message[widget.notification.type]}',
+                sender.fullName,
+              ),
+              subtitle: Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(
+                  widget.notification.createTime.toDate().toString(),
+                  style: TextStyle(
+                    fontSize: 13,
                   ),
                 ),
-              );
-              break;
-            case 2:
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                builder: (BuildContext context) {
-                  return AddReminderModal(
-                    widget.notification.createTime,
-                    widget.updateFunction,
-                  );
-                },
-              );
+              ),
+              trailing: Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+              ),
+              tileColor: widget.notification.isRead
+                  ? Color.fromARGB(255, 214, 247, 216)
+                  : Color.fromARGB(255, 240, 240, 240),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
+              ),
+              onTap: () {
+                switch (widget.notification.type) {
+                  case 0:
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) =>
+                    //         ReminderScreen.openAt(widget.notification.time),
+                    //   ),
+                    // );
+                    print('open in connection');
+                    break;
+                  case 1:
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainScreen.openReminderAt(
+                          initialPage: 3,
+                          selectedDate: widget.notification.createTime.toDate(),
+                        ),
+                      ),
+                    );
+                    break;
+                  case 2:
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (BuildContext context) {
+                        return AddReminderModal(
+                          widget.notification.createTime,
+                          widget.updateFunction,
+                        );
+                      },
+                    );
 
-              break;
-            case 3:
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                builder: (BuildContext context) {
-                  return AddReminderModal.createWith(
-                    Timestamp.now(),
-                    widget.updateFunction,
-                    ReminderEvent(
-                      Timestamp.now(),
-                      'Appointment with ${widget.notification.sender.fullName}',
-                      0,
-                      0,
-                    ),
-                  );
-                },
-              );
+                    break;
+                  case 3:
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (BuildContext context) {
+                        return AddReminderModal.createWith(
+                          Timestamp.now(),
+                          widget.updateFunction,
+                          ReminderEvent(
+                            Timestamp.now(),
+                            'Appointment with ${sender.fullName}',
+                            0,
+                            0,
+                          ),
+                        );
+                      },
+                    );
 
-              break;
-            case 4:
-              print('open in health diary');
-              break;
-            case 5:
-              print('open in health diary');
-              break;
-            case 6:
-              print('open in health diary');
-              break;
-          }
-          setState(() {
-            widget.notification.isRead = true;
-          });
-        },
-      ),
+                    break;
+                  case 4:
+                    print('open in health diary');
+                    break;
+                  case 5:
+                    print('open in health diary');
+                    break;
+                  case 6:
+                    print('open in health diary');
+                    break;
+                }
+
+                setState(() {
+                  widget.notification.isRead = true;
+                });
+              },
+            ),
+          );
+        } else {
+          return Text('No user data found');
+        }
+      },
     );
   }
 }
