@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:logit/body_part_selector.dart';
+import 'package:logit/body_part_selector/body_part_selector_ex.dart';
 import 'package:flutter/material.dart';
 import 'package:logit/model/medical_record.dart';
 
