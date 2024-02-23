@@ -6,6 +6,8 @@ import 'package:logit/model/user.dart';
 import 'package:logit/widget/report_card.dart';
 import 'package:logit/doctor/screen/medical_record.dart';
 import 'package:logit/doctor/screen/message.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class _CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {
   final double offsetX;
@@ -74,12 +76,76 @@ class _SymptomReportDoctorState extends State<SymptomReportDoctor> {
                 ),
               ),
               leading: IconButton(
-                icon: Icon(Icons.close, size: 30, color: iconColor),
+                icon: Icon(Icons.close, size: 25, color: iconColor),
                 onPressed: () {
                   Navigator.pop(context);
                 },
               ),
               actions: [
+                IconButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Center(
+                            child: Text(
+                              'Send appointment request',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          content: SizedBox(
+                            width: 450,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.edit_calendar_outlined,
+                                  color: Color.fromARGB(255, 106, 191, 151),
+                                  size: 75,
+                                ),
+                                const SizedBox(height: 20),
+                                Text(
+                                  'Notify this patient to make an appointment',
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 20),
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    await FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(widget.treatment.patient.uid)
+                                        .collection('notifications')
+                                        .add(
+                                      {
+                                        'type': 2,
+                                        'sender': FirebaseAuth
+                                            .instance.currentUser!.uid,
+                                        'createTime': Timestamp.now(),
+                                        'timeAttached': Timestamp.now(),
+                                        'isRead': false,
+                                      },
+                                    );
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('Request'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  icon: Icon(
+                    Icons.edit_calendar_outlined,
+                    size: 25,
+                    color: iconColor,
+                  ),
+                ),
                 IconButton(
                   onPressed: () {
                     Navigator.push(
@@ -92,7 +158,7 @@ class _SymptomReportDoctorState extends State<SymptomReportDoctor> {
                   },
                   icon: Icon(
                     Icons.info_outline_rounded,
-                    size: 35,
+                    size: 25,
                     color: iconColor,
                   ),
                 ),
@@ -250,9 +316,9 @@ class _SymptomReportDoctorState extends State<SymptomReportDoctor> {
                 borderRadius: BorderRadius.circular(50),
               ),
               child: Icon(
-                Icons.add,
+                Icons.message,
                 color: Colors.white,
-                size: 50,
+                size: 30,
               ),
             ),
             floatingActionButtonLocation: _CustomFloatingActionButtonLocation(

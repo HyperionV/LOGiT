@@ -53,7 +53,7 @@ class _CreateReportState extends State<CreateReport> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _endDate,
-      firstDate: DateTime.now(),
+      firstDate: DateTime(2001),
       lastDate: DateTime(2101),
     );
     if (picked != null && picked != _endDate) {
@@ -98,7 +98,9 @@ class _CreateReportState extends State<CreateReport> {
       },
     );
 
-    if (widget.medicalRecord.critical.contains(_contentController.text)) {
+    if (_contentController.text
+        .toLowerCase()
+        .contains(widget.medicalRecord.critical.toLowerCase())) {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(widget.doctorId)

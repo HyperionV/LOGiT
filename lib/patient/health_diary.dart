@@ -86,7 +86,9 @@ class _HealthDiaryState extends State<HealthDiary> {
                                   builder: (BuildContext context) {
                                     return QRCodeDialog();
                                   },
-                                );
+                                ).then((value) {
+                                  setState(() {});
+                                });
                               },
                             ),
                           ),

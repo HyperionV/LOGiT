@@ -52,11 +52,14 @@ class MessageItem extends StatelessWidget {
                     color: const Color.fromARGB(255, 87, 191, 156),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Text(
-                    message.body,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
+                  child: SizedBox(
+                    width: 290,
+                    child: Text(
+                      message.body,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ),

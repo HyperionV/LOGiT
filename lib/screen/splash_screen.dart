@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen>
           duration: const Duration(seconds: 2),
           child: Image.asset(
             'assets/logo/logo.png',
-            height: 150,
+            height: 450,
           ),
         ),
       ),

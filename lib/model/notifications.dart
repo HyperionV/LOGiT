@@ -5,7 +5,7 @@ List<String> message = [
   ' sent you a message.',
   ' confirmed your appointment request.',
   ' requested you for an appointment.',
-  ' offered an appointment.',
+  ' booked an appointment.',
   ' accepted your connection request.',
   ' created a new medical record.',
   ' has a serious symptom, please contact the patient as soon as possible.',

@@ -37,7 +37,7 @@ class _CreateDiagnosisState extends State<CreateDiagnosis> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _endDate,
-      firstDate: DateTime.now(),
+      firstDate: DateTime(2001),
       lastDate: DateTime(2101),
     );
     if (picked != null && picked != _endDate) {

@@ -123,8 +123,8 @@ class _NotificationItemState extends State<NotificationItem> {
                 size: 16,
               ),
               tileColor: widget.notification.isRead
-                  ? Color.fromARGB(255, 214, 247, 216)
-                  : Color.fromARGB(255, 240, 240, 240),
+                  ? Color.fromARGB(255, 240, 240, 240)
+                  : Color.fromARGB(255, 214, 247, 216),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24),
               ),
@@ -201,10 +201,12 @@ class _NotificationItemState extends State<NotificationItem> {
                           Timestamp.now(),
                           widget.updateFunction,
                           ReminderEvent(
-                            Timestamp.now(),
+                            widget.notification.timeAttached,
                             'Appointment with ${sender.fullName}',
-                            0,
-                            0,
+                            widget.notification.timeAttached.toDate().hour *
+                                1.0,
+                            widget.notification.timeAttached.toDate().minute /
+                                60,
                           ),
                         );
                       },
@@ -215,7 +217,7 @@ class _NotificationItemState extends State<NotificationItem> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => MainScreenDoctor.openAt(1),
+                        builder: (context) => MainScreen.openAt(1),
                       ),
                     );
                     break;

@@ -17,37 +17,39 @@ void main() async {
   );
   runApp(const App());
 }
-var colorScheme = ColorScheme.fromSeed(seedColor: Color.fromARGB(1, 87, 191, 156));
+
+var colorScheme =
+    ColorScheme.fromSeed(seedColor: Color.fromARGB(1, 87, 191, 156));
+
 class App extends StatelessWidget {
   const App({super.key});
 
   @override
   Widget build(context) {
     return MaterialApp(
-      theme: ThemeData().copyWith( 
-        colorScheme: colorScheme,
-        bottomSheetTheme: BottomSheetThemeData(
-          backgroundColor: Color.fromARGB(255, 255, 255, 255),
-          surfaceTintColor: Colors.white
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: colorScheme.primaryContainer,
-            shadowColor: colorScheme.primaryContainer,
-            elevation: 0,
+      theme: ThemeData().copyWith(
+          colorScheme: colorScheme,
+          bottomSheetTheme: BottomSheetThemeData(
+              backgroundColor: Color.fromARGB(255, 255, 255, 255),
+              surfaceTintColor: Colors.white),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: colorScheme.primaryContainer,
+              shadowColor: colorScheme.primaryContainer,
+              elevation: 0,
+            ),
           ),
-        ),
-        textTheme: ThemeData().textTheme.copyWith(
-          titleLarge: TextStyle(
-            color: colorScheme.onPrimaryContainer,
-          ),
-        )
-      ),
+          textTheme: ThemeData().textTheme.copyWith(
+                titleLarge: TextStyle(
+                  color: colorScheme.onPrimaryContainer,
+                ),
+              )),
       home: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
-            if (snapshot.hasData) {              return FutureBuilder<DocumentSnapshot>(
+            if (snapshot.hasData) {
+              return FutureBuilder<DocumentSnapshot>(
                 future: FirebaseFirestore.instance
                     .collection('users')
                     .doc(snapshot.data!.uid)
