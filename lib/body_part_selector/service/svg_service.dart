@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:logit/body_part_selector.dart';
+import 'package:logit/body_part_selector/body_part_selector_ex.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
