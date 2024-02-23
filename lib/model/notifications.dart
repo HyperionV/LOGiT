@@ -44,7 +44,6 @@ List<NotificationData> notifications = [];
 
 Future<void> fetchNotifications() async {
   notifications.clear();
-  print('fetching notifications');
   final notificationCollection = FirebaseFirestore.instance
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -53,8 +52,6 @@ Future<void> fetchNotifications() async {
   for (final noti in NotificationSnapshot.docs) {
     if (noti.exists) {
       Map<String, dynamic> notiRecord = noti.data();
-      print(noti.id);
-      print(notiRecord);
       notifications.add(
         NotificationData(
           noti.id,

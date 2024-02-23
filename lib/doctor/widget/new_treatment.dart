@@ -100,8 +100,22 @@ class _CreateTreatmentModalState extends State<CreateTreatmentModal> {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('connections')
         .doc(widget.patientID)
+        .set({});
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('connections')
+        .doc(widget.patientID)
         .collection('treatments')
         .doc(newRecordUid)
+        .set({});
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.patientID)
+        .collection('connections')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .set({});
 
     await FirebaseFirestore.instance

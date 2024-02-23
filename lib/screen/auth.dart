@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 final firebase = FirebaseAuth.instance;
 
@@ -44,7 +45,7 @@ class _OtherMethod extends StatelessWidget {
               padding: const EdgeInsets.only(right: 16),
               child: Text(
                 'Sign in with $_name',
-                textAlign: TextAlign.center, // Center align the text
+                textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Color(0xFF101522),
                   fontSize: 16,
@@ -104,15 +105,28 @@ class _AuthScreenState extends State<AuthScreen> {
           email: _email,
           password: _pwd,
         );
-        // _showPopup();
-        // print(userCredential);
       } else {
         await firebase.createUserWithEmailAndPassword(
           email: _email,
           password: _pwd,
         );
-        // print(userCredential);
-        // print(_name);
+
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(firebase.currentUser!.uid)
+            .set(
+          {
+            'imageUrl':
+                'https://drive.google.com/file/d/1wJo6rJ0OMF94g44Ca1zauS-fBvXA0QJN/view?usp=sharing',
+            'email': _email,
+            'fullName': _name,
+            'emergencyContact': '911',
+            'phoneNumber': '123456789',
+            'dob': '01/01/2000',
+            'address': '1234 Main St',
+            'isDoctor': false,
+          },
+        );
       }
     } on FirebaseAuthException catch (error) {
       ScaffoldMessenger.of(context).clearSnackBars();
