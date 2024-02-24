@@ -26,9 +26,14 @@ Future<String> fetchConversationId(String patientUid, String doctorUid) async {
       .get();
 
   if (connectionDoc.exists && connectionDoc.data() != null) {
+    if (!(connectionDoc.data()! as Map<String, dynamic>)
+        .containsKey('conversations')) {
+      return 'No conversation found';
+    }
+
     return (connectionDoc.data() as Map<String, dynamic>)['conversations'];
   } else {
-    throw Exception('No conversation exists between these users.');
+    return 'No conversation found';
   }
 }
 
@@ -41,6 +46,10 @@ Future<List<MessageData>> fetchMessages(
       .collection('messages')
       .orderBy('createAt', descending: false)
       .get();
+
+  if (messagesSnapshot == 'No conversation found') {
+    return [];
+  }
 
   List<Future<MessageData>> messages = messagesSnapshot.docs.map((doc) async {
     Map<String, dynamic> messageData = doc.data() as Map<String, dynamic>;
