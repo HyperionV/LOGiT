@@ -151,6 +151,8 @@ class _CreateReportState extends State<CreateReport> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> symptoms = widget.medicalRecord.critical.split(',');
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
       child: Column(
@@ -198,7 +200,57 @@ class _CreateReportState extends State<CreateReport> {
               maxLines: null,
             ),
           ),
-          const SizedBox(height: 16.0),
+          const SizedBox(height: 24),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: SizedBox(
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Critical symptoms:',
+                    style:
+                        TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300),
+                  ),
+                  const SizedBox(height: 8.0),
+                  SingleChildScrollView(
+                    child: Row(
+                      children: List.generate(
+                        symptoms.length,
+                        (index) => SizedBox(
+                          height: 44,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 12.0),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    Color.fromARGB(255, 240, 240, 240),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                              ),
+                              child: Text(
+                                symptoms[index],
+                                style: TextStyle(
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                              onPressed: () {
+                                _contentController.text +=
+                                    symptoms[index] + '\n';
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 25.0),
           Container(
             decoration: BoxDecoration(
                 color: const Color.fromARGB(100, 217, 217, 217),
@@ -260,7 +312,7 @@ class _CreateReportState extends State<CreateReport> {
               setState(() {
                 for (String key in symptomNote.keys) {
                   _contentController.text +=
-                      bodyPartFormat(key) + ' : ' + symptomNote[key]! + '\n';
+                      bodyPartFormat(key) + ': ' + symptomNote[key]! + '\n';
                 }
                 symptomNote.clear();
               });
